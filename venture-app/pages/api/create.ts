@@ -1,4 +1,4 @@
-import prisma from '../../lib/prisma';
+import { prisma } from '../../lib/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 
@@ -24,6 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             }
         })
         res.status(200).json({message: "Project Created"})
+        alert("Project Submitted!")
 
     } catch(error){
         console.log("Failure: "+ error);

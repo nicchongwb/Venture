@@ -1,12 +1,12 @@
 import type { NextPage } from "next";
-import InputGroup from 'react-bootstrap/InputGroup';
-import Button from 'react-bootstrap/Button';
-import { withFormik, FormikProps, FormikErrors, Form, Field } from 'formik';
+import { withFormik, FormikProps, FormikErrors, Form, Field, Formik } from 'formik';
 import { useState } from "react";
 import DatePicker from "react-datepicker";
-import dompurify from 'dompurify';
-
+import { storage } from "../../lib/firebase/firebase";
+import {getDownloadURL, listAll, ref, uploadBytes} from "firebase/storage"
+import {v4 } from "uuid";
 import "react-datepicker/dist/react-datepicker.css";
+
 // Shape of form values
 interface FormValues {
     title: string,
@@ -16,7 +16,8 @@ interface FormValues {
     highlights:string,
     securitytype:string,
     busi_model:string,
-    image:string,
+    file: any,
+    image: string,
     closingDate: Date,
     userId: string
 }
@@ -35,7 +36,10 @@ async function create(data: FormValues ) {
                 'Content-Type': 'application/json'
             },
             method: 'POST'
-        }).then(() => data.title = "")
+        }).then(() => {
+          (data.title="", data.description="", data.busi_model="", data.highlights="", data.file="", data.cap_amt=1000, data.min_amt=1000);
+           alert("Project Submited");
+        })
     } catch (error) {
         console.log(error)
     }
@@ -45,7 +49,7 @@ async function create(data: FormValues ) {
 // Aside: You may see InjectedFormikProps<OtherProps, FormValues> instead of what comes below in older code.. InjectedFormikProps was artifact of when Formik only exported a HoC. It is also less flexible as it MUST wrap all props (it passes them through).
 const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
     const { touched, errors, isSubmitting, message, setFieldValue, values } = props;
-
+   
     return (
         <Form>
         <div className="input-container">
@@ -108,10 +112,11 @@ const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
 
             <label>
              Security Type:
-                <Field as="select" lassName="input-field" id="securitytype" name="securitytype" >
+                <Field as="select"  lassName="input-field" id="securitytype" name="securitytype" >
                     <option value="SAFE Note">SAFE Note</option>
                     <option value="Convertible Note">Convertible Note</option>
                 </Field>
+                {touched.securitytype && errors.securitytype && <div className="error-custom">{errors.securitytype}</div>}
             </label>
             <br/>
 
@@ -136,7 +141,9 @@ const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
             <label>
              Upload Project Image:
              <br/>
-              <Field id="image" name="image" type="text" />
+              <input id="file" name="file" type="file" onChange={(event) => {
+                setFieldValue("file", event.target.files[0])
+              }} />
             </label>
             <br/>
 
@@ -155,7 +162,7 @@ const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
             </label>
             <br/>
             <br/>
-            <button type="submit" >
+            <button type="submit">
                 Submit
             </button>
 
@@ -177,12 +184,13 @@ interface MyFormProps {
       return {
         title: props.initialTitle || '',
         description: '',
-        cap_amt:0,
-        min_amt:0,
+        cap_amt:1000,
+        min_amt:1000,
         highlights:'',
         securitytype:'',
         busi_model:'',
         image:'',
+        file: null,
         closingDate: new Date(),
         userId: "cl7t87h730006yvvc5h3lzi0o"
       };
@@ -211,6 +219,9 @@ interface MyFormProps {
       } else if (!isValidTargetted(values.min_amt, values.cap_amt)) {
         errors.cap_amt = 'Invalid amount! Targetted Amount cannot be less than Minmum Investment.';
       }
+      if (!values.securitytype ) {
+        errors.securitytype = 'Required';
+      }
       if (!values.highlights ) {
         errors.highlights = 'Required';
       }else if (!isValidDescription(values.highlights)) {
@@ -226,18 +237,35 @@ interface MyFormProps {
       } else if (!isValidDate(values.closingDate)) {
         errors.closingDate = 'Closing date cannot be less than today date!';
       }
+    
       return errors;
     },
   
     handleSubmit: values => {
-      // do submitting things
-      console.log(values)
-      try{
-        create(values)
-      }catch(error){
-        console.log(error)
-      }
-
+      const sanitizeHtml = require('sanitize-html');
+      // FIle UPload to firebase 
+      const imageRef = ref(storage, `images/${values.file.name +v4()}`)
+      
+      console.log("filename: "+ values.file.name)
+      uploadBytes(imageRef, values.file).then(() =>{
+        console.log("Image uploaded")
+        listAll(imageRef).then(() =>{
+          getDownloadURL(imageRef).then((url)=>{
+            values.image = url
+            // do submitting things
+            values.title = sanitizeHtml(values.title)
+            values.description = sanitizeHtml(values.description)
+            values.highlights = sanitizeHtml(values.highlights)
+            values.busi_model = sanitizeHtml(values.busi_model)
+            console.log("business" +values)
+            try{
+              create(values)
+            }catch(error){
+              console.log(error)
+            }
+          })
+        })
+      });
 
     },
   })(InnerForm);
