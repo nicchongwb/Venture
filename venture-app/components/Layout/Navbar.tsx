@@ -4,27 +4,49 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
+import { useRouter } from 'next/router';
 import {useSession, signOut, signIn} from 'next-auth/react'
 
 export const APP_BAR_HEIGHT = "4.5rem";
 const Navigationbar = () => {
-    //const { pathname } = useRouter();
+    
+    const router = useRouter();
+    const isActive: (pathname: string) => boolean = (pathname) =>
+      router.pathname === pathname;
 
     const {data: session, status} = useSession()
     let navButtons = null;
-    if(session) {
+
+    if (status === 'loading') {
       navButtons = (
         <>
-        <Button href="/" onClick={()=>signOut()} variant="secondary">Logout</Button>
-        <Button href="/"  variant="secondary">Portfolio</Button>
+        <p>Validating session...</p>
         </>
       )
-    } else {
+    }
+
+    if(!session) {
       navButtons = (
-        <>
-        <Button href="/api/auth/signin" onClick={()=>signIn()} variant="secondary">Login</Button>
-        <Button href="/signup"  variant="dark">Sign Up</Button>
-        </>
+        <div>
+          <Link href="/api/auth/signin">
+            <button>
+              <a>Log in</a>
+            </button>
+          </Link>
+        </div>
+      )
+    } 
+
+    if(session){
+      navButtons = (
+        <div>
+          <p>
+            {session.user.name} ({session.user.email})
+          </p>
+
+        <Button onClick={()=>signOut()} variant="secondary">Logout</Button>
+        <Button href="/"  variant="secondary">Portfolio</Button>
+        </div>
       )
     }
 
