@@ -17,18 +17,35 @@ interface FormValues {
     securitytype:string,
     busi_model:string,
     image:string,
-    closingDate: Date
+    closingDate: Date,
+    userId: string
 }
 
 interface OtherProps {
     message: string;
 }
 
+async function create(data: FormValues ) {
+
+    try {
+        console.log("reaching create"+ data)
+        fetch('http://localhost:3000/api/create',{
+            body: JSON.stringify(data),
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            method: 'POST'
+        }).then(() => data.title = "")
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 
 // Aside: You may see InjectedFormikProps<OtherProps, FormValues> instead of what comes below in older code.. InjectedFormikProps was artifact of when Formik only exported a HoC. It is also less flexible as it MUST wrap all props (it passes them through).
 const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
     const { touched, errors, isSubmitting, message, setFieldValue, values } = props;
-    const [startDate, setStartDate] = useState(new Date());
+
     return (
         <Form>
         <div className="input-container">
@@ -119,7 +136,7 @@ const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
             <label>
              Upload Project Image:
              <br/>
-              <Field id="image" name="image" type="file" />
+              <Field id="image" name="image" type="text" />
             </label>
             <br/>
 
@@ -138,7 +155,7 @@ const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
             </label>
             <br/>
             <br/>
-            <button type="submit" disabled={isSubmitting}>
+            <button type="submit" >
                 Submit
             </button>
 
@@ -166,7 +183,8 @@ interface MyFormProps {
         securitytype:'',
         busi_model:'',
         image:'',
-        closingDate: new Date()
+        closingDate: new Date(),
+        userId: "cl7t87h730006yvvc5h3lzi0o"
       };
     },
   
@@ -213,6 +231,14 @@ interface MyFormProps {
   
     handleSubmit: values => {
       // do submitting things
+      console.log(values)
+      try{
+        create(values)
+      }catch(error){
+        console.log(error)
+      }
+
+
     },
   })(InnerForm);
 
@@ -223,7 +249,7 @@ const Raise: NextPage = () => {
     return (
         <div>
            <h3> Raise A Project</h3>
-           <MyForm message="Sign up" />
+           <MyForm message="Post A Project" />
            <p>This can be anywhere in your application</p>
             
         </div>
