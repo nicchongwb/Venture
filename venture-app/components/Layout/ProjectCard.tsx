@@ -49,7 +49,7 @@ const ProjectCard: React.FC<{ project: ProjectProps }> = ({ project }) => {
       </CardActionArea>
       <CardActions>
         <Button 
-            onClick={() => Router.push("/invest/[id]", `/invest/${project.project_id}`)} 
+            onClick={() => Router.push("/invest/[id]", `/invest/${project.id}`)} 
             size="small" 
             color="primary">
           LEARN MORE
