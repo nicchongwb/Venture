@@ -20,7 +20,10 @@ interface FormValues {
     busi_model:string,
     file: any,
     image: string,
-    closingDate: Date,
+    createdAt: string,
+    updatedAt: string,
+    closingDate: string,
+    closingDateFill: Date,
     email: any
 }
 
@@ -143,13 +146,13 @@ const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
              Select Funding Close Date:
              <br/>
              <DatePicker 
-                      selected={values.closingDate}
+                      selected={values.closingDateFill}
                       dateFormat="MMMM d, yyyy"
                       className="form-control"
-                      name="closingDate"
-                      onChange={date => setFieldValue('closingDate', date)}
+                      name="closingDateFill"
+                      onChange={date => setFieldValue('closingDateFill', date)}
                     />
-              {touched.closingDate && errors.closingDate && <div className="error-custom">{errors.closingDate}</div>}
+              {touched.closingDateFill && errors.closingDateFill && <div className="error-custom">{errors.closingDateFill}</div>}
             </label>
             <br/>
             <br/>
@@ -182,7 +185,10 @@ interface MyFormProps {
         busi_model:'',
         image:'',
         file: null,
-        closingDate: new Date(),
+        closingDate:'',
+        updatedAt:'',
+        createdAt:'',
+        closingDateFill: new Date(),
         email: null
       };
     },
@@ -220,10 +226,10 @@ interface MyFormProps {
       }else if (!isValidDescription(values.busi_model)) {
         errors.busi_model = 'Business Model Description too long!';
       }
-      if (!values.closingDate ) {
-        errors.closingDate = 'Required!';
-      } else if (!isValidDate(values.closingDate)) {
-        errors.closingDate = 'Closing date cannot be less than today date!';
+      if (!values.closingDateFill ) {
+        errors.closingDateFill = 'Required!';
+      } else if (!isValidDate(values.closingDateFill)) {
+        errors.closingDateFill = 'Closing date cannot be less than today date!';
       }
 
       return errors;
@@ -243,7 +249,12 @@ interface MyFormProps {
               console.log("Image uploaded")
               listAll(imageRef).then(() =>{
                 getDownloadURL(imageRef).then((url)=>{
+                  
                   values.image = url
+                  const now = new Date();
+                  values.closingDate = values.closingDateFill.toString()
+                  values.createdAt = now.toString()
+                  values.updatedAt = now.toString()
                     // do submitting things
                   console.log("print values" +values)
                   values.title = sanitizeHtml(values.title)
@@ -263,6 +274,10 @@ interface MyFormProps {
             console.log("FIle Uploading ERROR:" + error)
           }
         }else{
+            const now = new Date();
+            values.closingDate = values.closingDateFill.toString()
+            values.createdAt = now.toString()
+            values.updatedAt = now.toString()
               // do submitting things
             console.log("print values" +values)
             values.title = sanitizeHtml(values.title)
@@ -318,7 +333,7 @@ function isValidTitle(title: string) {
     return true
 }
 function isValidDescription(description: string) {
-    if(description.length > 1200){
+    if(description.length > 2000){
         return false
     }
     return true
