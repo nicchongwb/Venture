@@ -9,7 +9,7 @@ import {useSession, signOut, signIn} from 'next-auth/react'
 
 export const APP_BAR_HEIGHT = "4.5rem";
 const Navigationbar = () => {
-    
+    var logined  = false
     const router = useRouter();
     const isActive: (pathname: string) => boolean = (pathname) =>
       router.pathname === pathname;
@@ -38,6 +38,7 @@ const Navigationbar = () => {
     } 
 
     if(session){
+      logined = true
       navButtons = (
         <div>
           <p>
@@ -58,7 +59,7 @@ const Navigationbar = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Link href="/invest">Invest</Link>
-            <Link href="/raise">Raise</Link>
+            {logined && <Link href="/raise">Raise</Link>}
             <Link href="/">About Us</Link>
           </Nav>
             {navButtons}
