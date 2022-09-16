@@ -11,7 +11,8 @@ datasource db {
 }
 
 model Project {
-  project_id    Int    @id @default(autoincrement())
+  id            Int    @id @default(autoincrement())
+  project_id    String     @default(cuid())
   title         String
   description   String
   raise_amt     Float @default(0)

@@ -19,7 +19,7 @@ const Invest: React.FC<Props> = (props) => {
     return (
         <div>
             {props.projects.map((project) => (
-                <div key={project.project_id}>
+                <div key={project.id}>
                     <ProjectCard project={project}/>
                 </div>
             ))}
