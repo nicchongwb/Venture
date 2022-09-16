@@ -20,9 +20,9 @@ model Project {
   highlights    String
   busi_model    String
   image         String
-  closingDate   DateTime
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  closingDate   String
+  createdAt     String 
+  updatedAt     String
   User          User?    @relation(fields: [email], references: [email])
   email        String?
 }
