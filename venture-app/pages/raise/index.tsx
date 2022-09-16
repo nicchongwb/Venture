@@ -6,6 +6,9 @@ import { storage } from "../../lib/firebase/firebase";
 import {getDownloadURL, listAll, ref, uploadBytes} from "firebase/storage"
 import {v4 } from "uuid";
 import "react-datepicker/dist/react-datepicker.css";
+import { getSession, useSession } from "next-auth/react"
+
+
 
 // Shape of form values
 interface FormValues {
@@ -14,12 +17,11 @@ interface FormValues {
     cap_amt:number,
     min_amt:number,
     highlights:string,
-    securitytype:string,
     busi_model:string,
     file: any,
     image: string,
     closingDate: Date,
-    userId: string
+    email: any
 }
 
 interface OtherProps {
@@ -42,14 +44,15 @@ async function create(data: FormValues ) {
         })
     } catch (error) {
         console.log(error)
+        alert("Something is wrong cannot submit!")
     }
 }
-
 
 // Aside: You may see InjectedFormikProps<OtherProps, FormValues> instead of what comes below in older code.. InjectedFormikProps was artifact of when Formik only exported a HoC. It is also less flexible as it MUST wrap all props (it passes them through).
 const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
     const { touched, errors, isSubmitting, message, setFieldValue, values } = props;
-   
+    const {data: session, status} = useSession();
+    values.email = session?.user?.email
     return (
         <Form>
         <div className="input-container">
@@ -59,8 +62,6 @@ const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
               {touched.title && errors.title && <div className="error-custom">{errors.title}</div>}
             </label>
             <br/>
-
-        
             <label>
              Project Description:
              <br/>
@@ -111,16 +112,6 @@ const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
             <br/>
 
             <label>
-             Security Type:
-                <Field as="select"  lassName="input-field" id="securitytype" name="securitytype" >
-                    <option value="SAFE Note">SAFE Note</option>
-                    <option value="Convertible Note">Convertible Note</option>
-                </Field>
-                {touched.securitytype && errors.securitytype && <div className="error-custom">{errors.securitytype}</div>}
-            </label>
-            <br/>
-
-            <label>
              Business Model:
              <br/>
              <Field
@@ -141,7 +132,7 @@ const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
             <label>
              Upload Project Image:
              <br/>
-              <input id="file" name="file" type="file" onChange={(event) => {
+              <input id="file" name="file" type="file" accept="image/*"  onChange={(event) => {
                 setFieldValue("file", event.target.files[0])
               }} />
             </label>
@@ -179,6 +170,7 @@ interface MyFormProps {
   
   // Wrap our form with the withFormik HoC
   const MyForm = withFormik<MyFormProps, FormValues>({
+
     // Transform outer props into form values
     mapPropsToValues: props => {
       return {
@@ -187,12 +179,11 @@ interface MyFormProps {
         cap_amt:1000,
         min_amt:1000,
         highlights:'',
-        securitytype:'',
         busi_model:'',
         image:'',
         file: null,
         closingDate: new Date(),
-        userId: "cl7t87h730006yvvc5h3lzi0o"
+        email: null
       };
     },
   
@@ -200,59 +191,80 @@ interface MyFormProps {
     validate: (values: FormValues) => {
       let errors: FormikErrors<FormValues> = {};
       if (!values.title ) {
-        errors.title = 'Required';
+        errors.title = 'Required!';
       } else if (!isValidTitle(values.title)) {
         errors.title = 'Title too long!';
       }
       if (!values.description ) {
-        errors.description = 'Required';
+        errors.description = 'Required!';
       }else if (!isValidDescription(values.description)) {
-        errors.description = 'Description too long';
+        errors.description = 'Description too long!';
       }
       if (!values.min_amt ) {
-        errors.min_amt = 'Required';
+        errors.min_amt = 'Required!';
       } else if (!isValidMinimumAnt(values.min_amt)) {
         errors.min_amt = 'Invalid amount! Enter a number within 1000 to 10000.';
       }
       if (!values.cap_amt ) {
-        errors.cap_amt = 'Required';
+        errors.cap_amt = 'Required!';
       } else if (!isValidTargetted(values.min_amt, values.cap_amt)) {
         errors.cap_amt = 'Invalid amount! Targetted Amount cannot be less than Minmum Investment.';
       }
-      if (!values.securitytype ) {
-        errors.securitytype = 'Required';
-      }
       if (!values.highlights ) {
-        errors.highlights = 'Required';
+        errors.highlights = 'Required!';
       }else if (!isValidDescription(values.highlights)) {
-        errors.highlights = 'Highlights too long';;
+        errors.highlights = 'Highlights too long!';;
       }
       if (!values.busi_model ) {
-        errors.busi_model = 'Required';
+        errors.busi_model = 'Required!';
       }else if (!isValidDescription(values.busi_model)) {
         errors.busi_model = 'Business Model Description too long!';
       }
       if (!values.closingDate ) {
-        errors.closingDate = 'Required';
+        errors.closingDate = 'Required!';
       } else if (!isValidDate(values.closingDate)) {
         errors.closingDate = 'Closing date cannot be less than today date!';
       }
-    
+
       return errors;
     },
   
     handleSubmit: values => {
-      const sanitizeHtml = require('sanitize-html');
-      // FIle UPload to firebase 
-      const imageRef = ref(storage, `images/${values.file.name +v4()}`)
-      
-      console.log("filename: "+ values.file.name)
-      uploadBytes(imageRef, values.file).then(() =>{
-        console.log("Image uploaded")
-        listAll(imageRef).then(() =>{
-          getDownloadURL(imageRef).then((url)=>{
-            values.image = url
-            // do submitting things
+       console.log("HERE!")
+       
+        const sanitizeHtml = require('sanitize-html');
+        
+        if(values.file != null){
+          // FIle UPload to firebase 
+        const imageRef = ref(storage, `images/${values.file.name +v4()}`)
+        console.log("filename: "+ values.file.name)
+          try{
+            uploadBytes(imageRef, values.file).then(() =>{
+              console.log("Image uploaded")
+              listAll(imageRef).then(() =>{
+                getDownloadURL(imageRef).then((url)=>{
+                  values.image = url
+                    // do submitting things
+                  console.log("print values" +values)
+                  values.title = sanitizeHtml(values.title)
+                  values.description = sanitizeHtml(values.description)
+                  values.highlights = sanitizeHtml(values.highlights)
+                  values.busi_model = sanitizeHtml(values.busi_model)
+                  console.log("business" +values)
+                  try{
+                    create(values)
+                  }catch(error){
+                    console.log(error)
+                  }
+                })
+              })
+            });
+          }catch(error){
+            console.log("FIle Uploading ERROR:" + error)
+          }
+        }else{
+              // do submitting things
+            console.log("print values" +values)
             values.title = sanitizeHtml(values.title)
             values.description = sanitizeHtml(values.description)
             values.highlights = sanitizeHtml(values.highlights)
@@ -263,25 +275,30 @@ interface MyFormProps {
             }catch(error){
               console.log(error)
             }
-          })
-        })
-      });
+
+        }
 
     },
   })(InnerForm);
 
-const Raise: NextPage = () => {
-    const [startDate, setStartDate] = useState(new Date());
-
-   
-    return (
+const Raise: NextPage = ({  }) => {
+    const [startDate, setStartDate] = useState(new Date()); 
+    const {data: session, status} = useSession();
+    if(session?.user){
+      return (
         <div>
            <h3> Raise A Project</h3>
            <MyForm message="Post A Project" />
-           <p>This can be anywhere in your application</p>
-            
+           <p>Fill up all required values!</p>
         </div>
-    )
+      )
+    }else{
+      return(
+        <div>
+          <h3> Not Authorise to raise projects!</h3>
+        </div>
+      )
+    }
 }
 
 
@@ -315,7 +332,6 @@ function isValidTargetted(min_amt: number, cap_amt: number) {
 }
 
 function isValidDate(closingDate: Date) {
-   
     const now = new Date();
     console.log("date is " + closingDate)
 

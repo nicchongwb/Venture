@@ -18,14 +18,13 @@ model Project {
   min_amt       Float
   cap_amt       Float
   highlights    String
-  securitytype  String
   busi_model    String
   image         String
   closingDate   DateTime
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
-  User          User?    @relation(fields: [userId], references: [id])
-  userId        String?
+  User          User?    @relation(fields: [email], references: [email])
+  email        String?
 }
 
 model Account {
