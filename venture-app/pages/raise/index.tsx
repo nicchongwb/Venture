@@ -14,8 +14,6 @@ import { getSession, useSession } from "next-auth/react"
 interface FormValues {
     title: string,
     description:string,
-    cap_amt:number,
-    min_amt:number,
     highlights:string,
     busi_model:string,
     file: any,

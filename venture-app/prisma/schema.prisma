@@ -16,8 +16,6 @@ model Project {
   title         String
   description   String
   raise_amt     Float @default(0)
-  min_amt       Float
-  cap_amt       Float
   highlights    String
   busi_model    String
   image         String

@@ -14,6 +14,7 @@ export default async function handler(
 ) {
   if (req.method === 'POST') {
     const amount: number = req.body.amount
+    const projId: number = req.body.projId
     try {
       // Validate the amount that was passed from the client.
       if (!(amount >= MIN_AMOUNT && amount <= MAX_AMOUNT)) {
@@ -31,8 +32,12 @@ export default async function handler(
                     name: 'Custom amount donation',
                 },
             },
-            quantity: 1,
+            quantity: 1, 
         }],
+        payment_intent_data : {
+          metadata: {projectId : projId},
+        },
+        metadata: {projectId : projId},
         mode: 'payment',
         success_url: `${req.headers.origin}/result?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${req.headers.origin}/`,

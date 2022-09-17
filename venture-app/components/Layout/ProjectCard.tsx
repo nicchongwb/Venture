@@ -12,8 +12,6 @@ export type ProjectProps = {
   title: string;
   description: string;
   raise_amt: number;
-  min_amt: number;
-  cap_amt: number;
   highlights: string;
   busi_model: string;
   image: string;

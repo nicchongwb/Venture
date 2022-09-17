@@ -3,13 +3,6 @@ import React from "react";
 import { GetServerSideProps } from "next";
 import { ProjectProps } from "../../components/Layout/ProjectCard";
 import { loadStripe } from "@stripe/stripe-js";
-import { NextPage } from "next";
-import { useState, useEffect } from "react";
-import { Elements } from "@stripe/react-stripe-js";
-import { PaymentIntent } from "@stripe/stripe-js";
-import getStripe from "../../utils/get-stripejs";
-import { fetchPostJSON } from "../../utils/api-helpers";
-import * as config from "../../config";
 import CheckoutForm from "../../components/Layout/CheckoutForm";
 
 const stripePromise = loadStripe(
@@ -24,7 +17,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     },
   });
   return {
-    props: { project },
+    props: { project, proj_id_num },
   };
 };
 
@@ -42,7 +35,7 @@ const Project: React.FC<ProjectProps> = (props) => {
         </>
       }
       <div>
-        <CheckoutForm />
+        <CheckoutForm id={props.proj_id_num}/>
       </div>
     </div>
   );
