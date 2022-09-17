@@ -27,7 +27,8 @@ const CheckoutForm = (props) => {
     // Create a Checkout Session.
     const response = await fetchPostJSON('/api/checkout_sessions', {
       amount: input.customDonation,
-      projId: props.id
+      projId: props.id,
+      userEmail: props.userEmail,
     })
 
     if (response.statusCode === 500) {

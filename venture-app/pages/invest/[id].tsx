@@ -4,6 +4,7 @@ import { GetServerSideProps } from "next";
 import { ProjectProps } from "../../components/Layout/ProjectCard";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "../../components/Layout/CheckoutForm";
+import {useSession} from 'next-auth/react'
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
@@ -22,6 +23,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 const Project: React.FC<ProjectProps> = (props) => {
+  const {data: session} = useSession()
   return (
     <div>
       {
@@ -35,7 +37,7 @@ const Project: React.FC<ProjectProps> = (props) => {
         </>
       }
       <div>
-        <CheckoutForm id={props.proj_id_num}/>
+        <CheckoutForm id={props.proj_id_num} userEmail={session.user.email}/>
       </div>
     </div>
   );

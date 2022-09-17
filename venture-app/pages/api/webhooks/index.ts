@@ -1,7 +1,6 @@
 import { buffer } from 'micro'
 import Cors from 'micro-cors'
 import { NextApiRequest, NextApiResponse } from 'next'
-import {useSession} from 'next-auth/react'
 import {prisma} from '../../../lib/prisma'
 
 import Stripe from 'stripe'
@@ -59,7 +58,8 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         const fulfill = event.data.object as Stripe.Checkout.Session
         const projectId: number = +fulfill.metadata.projectId
         const price: number = +fulfill.amount_subtotal
-
+        const userEmail = fulfill.metadata.userEmail
+        console.log(userEmail)
         const projectRaised = await prisma.project.findUnique({
             where: {
                 id: projectId
@@ -76,6 +76,25 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
                 raise_amt: price+projectRaised.raise_amt
             }
         })
+
+        const userProjects = await prisma.user.findUnique({
+          where: {
+            email: userEmail
+          },
+          select: {
+            investedProjects: true
+          }
+        })
+        const newList = [...new Set([...userProjects?.investedProjects, projectId])]
+        const updateList = await prisma.user.update({
+          where: {
+            email: userEmail,
+          },
+          data: {
+            investedProjects: newList
+          }
+        })
+
     } else {
       console.warn(`🤷‍♀️ Unhandled event type: ${event.type}`)
     }
