@@ -7,6 +7,7 @@ import {getDownloadURL, listAll, ref, uploadBytes} from "firebase/storage"
 import {v4 } from "uuid";
 import "react-datepicker/dist/react-datepicker.css";
 import { getSession, useSession } from "next-auth/react"
+import { propTypes } from "react-bootstrap/esm/Image";
 
 
 
@@ -14,8 +15,6 @@ import { getSession, useSession } from "next-auth/react"
 interface FormValues {
     title: string,
     description:string,
-    cap_amt:number,
-    min_amt:number,
     highlights:string,
     busi_model:string,
     file: any,
@@ -24,7 +23,7 @@ interface FormValues {
     updatedAt: string,
     closingDate: string,
     closingDateFill: Date,
-    email: any
+    email: any,
 }
 
 interface OtherProps {
@@ -42,7 +41,7 @@ async function create(data: FormValues ) {
             },
             method: 'POST'
         }).then(() => {
-          (data.title="", data.description="", data.busi_model="", data.highlights="", data.file="", data.cap_amt=1000, data.min_amt=1000);
+          (data.title="", data.description="", data.busi_model="", data.highlights="", data.file="", data.closingDateFill=new Date());
            alert("Project Submited");
         })
     } catch (error) {
@@ -56,6 +55,7 @@ const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
     const { touched, errors, isSubmitting, message, setFieldValue, values } = props;
     const {data: session, status} = useSession();
     values.email = session?.user?.email
+
     return (
         <Form>
         <div className="input-container">
@@ -79,20 +79,6 @@ const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
                 label="PROJECT SHORT_DESCRIPTION"
                 fullWidth/>
                 {touched.description && errors.description && <div className="error-custom">{errors.description}</div>}
-            </label>
-            <br/>
-
-            <label>
-             Targetted Raise Amount:
-             <Field className="input-field" id="cap_amt" name="cap_amt" type="number"  />
-             {touched.cap_amt && errors.cap_amt && <div className="error-custom">{errors.cap_amt}</div>}
-            </label>
-            <br/>
-
-            <label>
-             Minmum Investment:
-             <Field className="input-field" id="min_amt" name="min_amt" type="number" />
-             {touched.min_amt && errors.min_amt && <div className="error-custom">{errors.min_amt}</div>}
             </label>
             <br/>
 
@@ -156,9 +142,11 @@ const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
             </label>
             <br/>
             <br/>
-            <button type="submit">
+            <button type="submit"  >
                 Submit
             </button>
+
+            {isSubmitting && values.busi_model && <div className="error-custom"> Form Submitting...</div>}
 
         </div>
     </Form>
@@ -179,8 +167,6 @@ interface MyFormProps {
       return {
         title: props.initialTitle || '',
         description: '',
-        cap_amt:1000,
-        min_amt:1000,
         highlights:'',
         busi_model:'',
         image:'',
@@ -189,7 +175,7 @@ interface MyFormProps {
         updatedAt:'',
         createdAt:'',
         closingDateFill: new Date(),
-        email: null
+        email: null,
       };
     },
   
@@ -205,16 +191,6 @@ interface MyFormProps {
         errors.description = 'Required!';
       }else if (!isValidDescription(values.description)) {
         errors.description = 'Description too long!';
-      }
-      if (!values.min_amt ) {
-        errors.min_amt = 'Required!';
-      } else if (!isValidMinimumAnt(values.min_amt)) {
-        errors.min_amt = 'Invalid amount! Enter a number within 1000 to 10000.';
-      }
-      if (!values.cap_amt ) {
-        errors.cap_amt = 'Required!';
-      } else if (!isValidTargetted(values.min_amt, values.cap_amt)) {
-        errors.cap_amt = 'Invalid amount! Targetted Amount cannot be less than Minmum Investment.';
       }
       if (!values.highlights ) {
         errors.highlights = 'Required!';
@@ -236,11 +212,11 @@ interface MyFormProps {
     },
   
     handleSubmit: values => {
-       console.log("HERE!")
-       
-        const sanitizeHtml = require('sanitize-html');
-        
-        if(values.file != null){
+      console.log("HERE!") 
+      const sanitizeHtml = require('sanitize-html');
+      
+      // If file is uploaded handle submit 
+      if(values.file != null){
           // FIle UPload to firebase 
         const imageRef = ref(storage, `images/${values.file.name +v4()}`)
         console.log("filename: "+ values.file.name)
@@ -255,7 +231,7 @@ interface MyFormProps {
                   values.closingDate = values.closingDateFill.toString()
                   values.createdAt = now.toString()
                   values.updatedAt = now.toString()
-                    // do submitting things
+                    // do submitting things when file is successfully uploaded
                   console.log("print values" +values)
                   values.title = sanitizeHtml(values.title)
                   values.description = sanitizeHtml(values.description)
@@ -273,7 +249,8 @@ interface MyFormProps {
           }catch(error){
             console.log("FIle Uploading ERROR:" + error)
           }
-        }else{
+      }else{
+          // submit even when file is not uploaded 
             const now = new Date();
             values.closingDate = values.closingDateFill.toString()
             values.createdAt = now.toString()
@@ -304,7 +281,7 @@ const Raise: NextPage = ({  }) => {
         <div>
            <h3> Raise A Project</h3>
            <MyForm message="Post A Project" />
-           <p>Fill up all required values!</p>
+          
         </div>
       )
     }else{
@@ -319,13 +296,7 @@ const Raise: NextPage = ({  }) => {
 
 export default Raise
 
-function isValidMinimumAnt(min_amt: number) {
-    if( min_amt <=0 || min_amt < 1000 || min_amt >10000){
-        return false
-    }
-    return true
-}
-
+// custom validation 
 function isValidTitle(title: string) {
     if(title.length > 100){
         return false
@@ -338,18 +309,9 @@ function isValidDescription(description: string) {
     }
     return true
 }
-
-function isValidTargetted(min_amt: number, cap_amt: number) {
-    if(cap_amt < min_amt){
-        return false
-    }
-    return true
-}
-
 function isValidDate(closingDate: Date) {
     const now = new Date();
     console.log("date is " + closingDate)
-
     return closingDate > now
 }
 
