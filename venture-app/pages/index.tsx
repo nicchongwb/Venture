@@ -1,7 +1,5 @@
 import type { NextPage } from 'next'
-import Head from 'next/head'
 import Image from 'next/image'
-import styles from '../styles/Home.module.css'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import linechart from '../public/linechart.gif'
 import SavedSearchIcon from '@mui/icons-material/SavedSearch';
@@ -40,20 +38,20 @@ const Home:NextPage  = () => {
   
   return (
     <>
-      <Head>
-        <title>Venture</title>
-      </Head>
+      
       <div className="m-10 box-content h-[400px] w-90 p-4 shadow-lg bg-indigo-50">
-        <div className="ml-24 mr-4 mb-24 mt-10 box-content h-32 w-2/5 p-4">
-          <h2 className='font-bold mr-4 text-6xl'>Invest in world-changing startups</h2>
-          <p className="text-2xl">
-          Join students funding the next wave of world-changing startups.
-          </p>
-          <button className='px-8 py-3'><a className='text-white no-underline' href='/invest'>Invest Now</a></button>
-          <button className='border-none bg-transparent ml-9'><a className=' text-indigo-700 mr-4 no-underline' href='/raise'>Start your own project <ArrowForwardIcon/></a></button>
-        </div>
-        <div className=" absolute top-32 right-52 p-4 float-right ">
-            <Image src={linechart} height={350} width={330} alt="GFG logo imported from public directory" />
+        <div className="grid grid-cols-3 gap-4">
+          <div className="col-span-2 py-16 px-20 "> 
+            
+              <h2 className=' font-bold mr-4 sm:text-4xl xl:text-7xl'>Invest in world-changing startups</h2>
+              <p className="sm:text-lg xl:text-2xl">Join students funding the next wave of world-changing startups. </p>
+              <button className='sm:w-24 xl:w-48 px-8 py-3'><a className='sm:text-base xl:text-lg text-white no-underline' href='/invest'>Invest Now</a></button>
+              <button className='border-none bg-transparent ml-9'><a className=' text-indigo-700 mr-4 no-underline' href='/raise'>Start your own project <ArrowForwardIcon/></a></button>
+        
+          </div>
+          <div className='py-4'>
+          <Image src={linechart} height={350} width={330} alt="GFG logo imported from public directory" />
+          </div>
         </div>
       </div>
       <div className="grid grid-cols-4 gap-0.5 mx-44 my-20">
@@ -103,6 +101,9 @@ const Home:NextPage  = () => {
         </div>
       </div>
     </div>
+
+  
+      
   
     </>
   )

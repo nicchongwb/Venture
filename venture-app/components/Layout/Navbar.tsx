@@ -129,9 +129,9 @@ const Navigationbar = () => {
       </div>
 
       <ul className={!nav ? 'hidden' : 'absolute bg-zinc-200 w-full px-8'}>
-          <li className='border-b-2 border-zinc-300 w-full'><Link onClick={handleClose} href="/" >Home</Link></li>
-          <li className='border-b-2 border-zinc-300 w-full'><Link onClick={handleClose} href="/raise" >Raise</Link></li>
-          <li className='border-b-2 border-zinc-300 w-full'><Link onClick={handleClose} href="/invest">Invest</Link></li>
+          <li className='border-b-2 border-zinc-300 w-full'><Link  href="/" ><a onClick={handleClose}> Home</a></Link></li>
+          <li className='border-b-2 border-zinc-300 w-full'><Link href="/raise" ><a onClick={handleClose}> Raise</a></Link></li>
+          <li className='border-b-2 border-zinc-300 w-full'><Link href="/invest"><a onClick={handleClose}> Invest</a></Link></li>
         <div className='flex flex-col my-4'>
             {smallnavButtons}
         </div>

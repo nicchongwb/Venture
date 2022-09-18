@@ -6,8 +6,7 @@ import { storage } from "../../lib/firebase/firebase";
 import {getDownloadURL, listAll, ref, uploadBytes} from "firebase/storage"
 import {v4 } from "uuid";
 import "react-datepicker/dist/react-datepicker.css";
-import { getSession, useSession } from "next-auth/react"
-import { propTypes } from "react-bootstrap/esm/Image";
+
 
 
 

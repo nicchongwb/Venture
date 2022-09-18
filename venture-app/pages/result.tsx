@@ -3,7 +3,7 @@ import useSWR from 'swr'
 import { fetchGetJSON } from '../utils/api-helpers'
 import PrintObject from "../components/Layout/PrintObject";
 import {useSession} from 'next-auth/react'
-import {prisma} from "../lib/prisma"
+
 
 
 

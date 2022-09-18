@@ -35,9 +35,9 @@ const Project: React.FC<ProjectProps> = (props) => {
             <div className="grid grid-cols-3 gap-16 py-0 px-10">
               <div className="col-span-2">
               <h3 className=" font-bold text-lg mr-4 sm:text-xl">Amount Raised: {props.project.raise_amt}</h3>
-                <p><div className="text-lg font-bold">Description:</div> {props.project.description}</p>
-                <p><div className="text-lg font-bold ">Business Model:</div> {props.project.busi_model}</p>
-                <p><div className="text-lg font-bold">Highlights:</div> {props.project.highlights}</p>
+                <div className="text-lg font-bold">Description:</div> <p>{props.project.description}</p>
+                <div className="text-lg font-bold ">Business Model:</div> <p>{props.project.busi_model}</p>
+                <div className="text-lg font-bold">Highlights:</div>  <p>{props.project.highlights}</p>
               </div>
               <div >
             <div>
