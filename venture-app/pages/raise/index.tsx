@@ -57,99 +57,103 @@ const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
     values.email = session?.user?.email
 
     return (
+      <div className="container mx-auto px-8">
+          <h1 className='px-0 py-10 font-bold mr-4 text-5xl'> Raise a project</h1>
         <Form>
-        <div className="input-container">
-            <label>
-             Title:
+        <div className="px-4 input-container">
+            <label className='mr-4 text-2xl'>
+             Title: &nbsp;
               <Field className="input-field" id="title" name="title" type="text" placeholder="Project Title" />
-              {touched.title && errors.title && <div className="error-custom">{errors.title}</div>}
+              {touched.title && errors.title && <div className="text-orange-700">{errors.title}</div>}
             </label>
             <br/>
-            <label>
+            <label className='mr-4 text-2xl pt-6'>
              Project Description:
              <br/>
                 <Field
                 component="textarea"
                 rows="4"
                 cols="80"
-                className="form-control"
+                className="form-control p-2 my-2"
                 id="description"
                 name="description"
                 variant="outlined"
                 label="PROJECT SHORT_DESCRIPTION"
                 fullWidth/>
-                {touched.description && errors.description && <div className="error-custom">{errors.description}</div>}
+                {touched.description && errors.description && <div className="text-orange-700">{errors.description}</div>}
             </label>
             <br/>
 
-            <label>
+            <label className='mr-4 text-2xl pt-6'>
             Company Highlights:
              <br/>
               <Field
                 component="textarea"
                 rows="4"
                 cols="80"
-                className="form-control"
+                className="form-control p-2 my-2"
                 id="highlights"
                 name="highlights"
                 variant="outlined"
                 label="PROJECT SHORT_Hightlight"
                 fullWidth/>
-                {touched.highlights && errors.highlights && <div className="error-custom">{errors.highlights}</div>}
+                {touched.highlights && errors.highlights && <div className="text-orange-700">{errors.highlights}</div>}
             </label>
 
             <br/>
 
-            <label>
+            <label className='mr-4 text-2xl pt-6'>
              Business Model:
              <br/>
              <Field
                 component="textarea"
                 rows="4"
                 cols="80"
-                className="form-control"
+                className="form-control p-2 my-2"
                 id="busi_model"
                 name="busi_model"
                 variant="outlined"
                 label="PROJECT SHORT_Hightlight"
                 fullWidth/>
-                {touched.busi_model && errors.busi_model && <div className="error-custom">{errors.busi_model}</div>}
+                {touched.busi_model && errors.busi_model && <div className="text-orange-700">{errors.busi_model}</div>}
             </label>
             <br/>
 
             <br/>
-            <label>
+            <label className='mr-4 text-2xl pt-6'>
              Upload Project Image:
              <br/>
-              <input id="file" name="file" type="file" accept="image/*"  onChange={(event) => {
+              <input className="my-4" id="file" name="file" type="file" accept="image/*"  onChange={(event) => {
                 setFieldValue("file", event.target.files[0])
               }} />
             </label>
             <br/>
 
             <br/>
-            <label>
+            <label className='mr-4 text-2xl pt-6'>
              Select Funding Close Date:
              <br/>
              <DatePicker 
                       selected={values.closingDateFill}
                       dateFormat="MMMM d, yyyy"
-                      className="form-control"
+                      className="form-control my-2"
                       name="closingDateFill"
                       onChange={date => setFieldValue('closingDateFill', date)}
                     />
-              {touched.closingDateFill && errors.closingDateFill && <div className="error-custom">{errors.closingDateFill}</div>}
+              {touched.closingDateFill && errors.closingDateFill && <div className="text-orange-700">{errors.closingDateFill}</div>}
             </label>
             <br/>
             <br/>
-            <button type="submit"  >
+            <button className="px-8 py-3 bg-indigo-600 mt-10 mb-5 " type="submit"  >
                 Submit
             </button>
-
-            {isSubmitting && values.busi_model && <div className="error-custom"> Form Submitting...</div>}
+            {isSubmitting && values.busi_model && <div className="text-emerald-700 text-2xl p-2 mb-20"> Form Submitting...</div>}
 
         </div>
     </Form>
+
+      </div>
+        
     );
 };
 
@@ -279,14 +283,19 @@ const Raise: NextPage = ({  }) => {
     if(session?.user){
       return (
         <div>
-           <h3> Raise A Project</h3>
+          
+          <div className="flex justify-center container mx-auto ">
+        
            <MyForm message="Post A Project" />
           
         </div>
+
+        </div>
+        
       )
     }else{
       return(
-        <div>
+        <div className="container mx-auto">
           <h3> Not Authorise to raise projects!</h3>
         </div>
       )

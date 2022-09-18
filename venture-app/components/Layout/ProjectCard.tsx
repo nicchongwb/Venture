@@ -28,8 +28,7 @@ export type ProjectProps = {
 const ProjectCard: React.FC<{ project: ProjectProps }> = ({ project }) => {
   const projectOwner = project.user ? project.user.name : "No owner";
   return (
-    <div className="grid grid-cols-3 gap-4">
-       <div>
+
         <Card sx={{ maxWidth: 345 }}>
           <CardActionArea>
             <CardMedia
@@ -56,8 +55,6 @@ const ProjectCard: React.FC<{ project: ProjectProps }> = ({ project }) => {
             </Button>
           </CardActions>
        </Card>
-       </div>
-    </div>
    
   );
 };

@@ -17,12 +17,16 @@ type Props = {
 }
 const Invest: React.FC<Props> = (props) => {
     return (
-        <div>
-            {props.projects.map((project) => (
-                <div key={project.id}>
-                    <ProjectCard project={project}/>
-                </div>
-            ))}
+        <div className="container my-14 mx-auto px-4">
+            <div className="grid grid-cols-4 gap-14">
+                {props.projects.map((project) => (
+                    
+                        <div key={project.id}>
+                            <ProjectCard project={project}/>
+                        </div>
+                
+                ))}
+            </div>
         </div>
     )
 }

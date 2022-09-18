@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @layer base {
+  
   li {
     @apply p-4
   }
