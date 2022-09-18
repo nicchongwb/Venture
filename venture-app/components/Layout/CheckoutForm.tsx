@@ -65,10 +65,10 @@ const CheckoutForm = (props) => {
       />
       <StripeTestCards />
       <button
-        className="checkout-style-background border-none bg-transparent "
+        className="h-14 bg-indigo-700 "
         type="submit"
         disabled={loading}>
-        <p className='text-xl font-bold text-indigo-700 mr-4'>Invest {formatAmountForDisplay(input.customDonation, config.CURRENCY)} <ForwardIcon/></p>
+        <p className='pt-14 p-2 sm:text-sm xl:text-lg font-bold text-white'>Invest {formatAmountForDisplay(input.customDonation, config.CURRENCY)} <ForwardIcon/></p>
        
         
       </button>

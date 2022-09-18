@@ -43,7 +43,7 @@ const Project: React.FC<ProjectProps> = (props) => {
             <div>
             <img className="pb-10"src={props.project.image} alt="GFG logo imported from public directory" />
               <br/>  
-              <CheckoutForm id={props.proj_id_num} userEmail={session.user.email}/>
+              {session?.user && <CheckoutForm id={props.proj_id_num} userEmail={session.user.email}/>}
              </div>
             </div>
 
