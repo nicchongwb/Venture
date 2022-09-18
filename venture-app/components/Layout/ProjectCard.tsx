@@ -12,8 +12,6 @@ export type ProjectProps = {
   title: string;
   description: string;
   raise_amt: number;
-  min_amt: number;
-  cap_amt: number;
   highlights: string;
   busi_model: string;
   image: string;
@@ -30,32 +28,37 @@ export type ProjectProps = {
 const ProjectCard: React.FC<{ project: ProjectProps }> = ({ project }) => {
   const projectOwner = project.user ? project.user.name : "No owner";
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="140"
-          image="../public/placeholder_image.png"
-          alt="test image placeholder"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {project.title}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {project.description}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button 
-            onClick={() => Router.push("/invest/[id]", `/invest/${project.id}`)} 
-            size="small" 
-            color="primary">
-          LEARN MORE
-        </Button>
-      </CardActions>
-    </Card>
+    <div className="grid grid-cols-3 gap-4">
+       <div>
+        <Card sx={{ maxWidth: 345 }}>
+          <CardActionArea>
+            <CardMedia
+              component="img"
+              height="140"
+              image={project.image}
+              alt="test image placeholder"
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                {project.title}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {project.description}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+          <CardActions>
+            <Button 
+                onClick={() => Router.push("/invest/[id]", `/invest/${project.id}`)} 
+                size="small" 
+                color="primary">
+              LEARN MORE
+            </Button>
+          </CardActions>
+       </Card>
+       </div>
+    </div>
+   
   );
 };
 

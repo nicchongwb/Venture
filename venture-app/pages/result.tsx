@@ -2,9 +2,16 @@ import { useRouter } from "next/router";
 import useSWR from 'swr'
 import { fetchGetJSON } from '../utils/api-helpers'
 import PrintObject from "../components/Layout/PrintObject";
+import {useSession} from 'next-auth/react'
+import {prisma} from "../lib/prisma"
+
+
+
 
 export default function Result() {
     const router = useRouter();
+
+    const {data: session, status} = useSession()
 
     const { data, error } = useSWR(
         router.query.session_id
@@ -12,7 +19,7 @@ export default function Result() {
           : null,
         fetchGetJSON
       )
-
+      
     if (error) return <div>failed to load</div>
 
     return (

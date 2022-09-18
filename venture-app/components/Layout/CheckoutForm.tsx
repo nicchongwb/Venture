@@ -8,7 +8,8 @@ import { fetchPostJSON } from '../../utils/api-helpers'
 import { formatAmountForDisplay } from '../../utils/stripe-helpers'
 import * as config from '../../config'
 
-const CheckoutForm = () => {
+const CheckoutForm = (props) => {
+
   const [loading, setLoading] = useState(false)
   const [input, setInput] = useState({
     customDonation: Math.round(config.MAX_AMOUNT / config.AMOUNT_STEP),
@@ -26,6 +27,8 @@ const CheckoutForm = () => {
     // Create a Checkout Session.
     const response = await fetchPostJSON('/api/checkout_sessions', {
       amount: input.customDonation,
+      projId: props.id,
+      userEmail: props.userEmail,
     })
 
     if (response.statusCode === 500) {
@@ -66,7 +69,7 @@ const CheckoutForm = () => {
         type="submit"
         disabled={loading}
       >
-        Donate {formatAmountForDisplay(input.customDonation, config.CURRENCY)}
+        Invest {formatAmountForDisplay(input.customDonation, config.CURRENCY)}
       </button>
     </form>
   )
