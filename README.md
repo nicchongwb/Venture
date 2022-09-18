@@ -7,3 +7,8 @@
 - remember to change URI in google api for nextauth
 - remember to change Authorizes redirect URI before production
 - remember to change in the .env file as well 
+
+# Set up Stripe webhook
+1. Install stripe CLI (https://stripe.com/docs/stripe-cli)
+2. login with api key
+3. `stripe listen --forward-to http://localhost:3000/webhooks`
