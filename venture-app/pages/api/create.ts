@@ -5,7 +5,7 @@ import { getSession } from 'next-auth/react';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const{title,description,cap_amt, min_amt, highlights,
-        busi_model, image, closingDate, email} = req.body
+        busi_model, image, closingDate,createdAt, updatedAt, email} = req.body
         console.log("req" + req.body)
     try{
         console.log("req" + req.body)
@@ -19,6 +19,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 busi_model, 
                 image,
                 closingDate,
+                createdAt,
+                updatedAt,
                 email, 
             }
         })

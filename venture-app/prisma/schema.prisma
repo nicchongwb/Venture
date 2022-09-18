@@ -11,18 +11,17 @@ datasource db {
 }
 
 model Project {
-  project_id    Int    @id @default(autoincrement())
+  id            Int    @id @default(autoincrement())
+  project_id    String     @default(cuid())
   title         String
   description   String
   raise_amt     Float @default(0)
-  min_amt       Float
-  cap_amt       Float
   highlights    String
   busi_model    String
   image         String
-  closingDate   DateTime
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  closingDate   String
+  createdAt     String 
+  updatedAt     String
   User          User?    @relation(fields: [email], references: [email])
   email        String?
 }
@@ -63,6 +62,7 @@ model User {
   emailVerified DateTime?
   image         String?
   project       Project[]
+  investedProjects Int[]
   accounts      Account[]
   sessions      Session[]
 }
