@@ -112,7 +112,7 @@ const Navigationbar = () => {
           <ul className='hidden md:flex'>
        
           <li><Link href="/"  >Home</Link></li>
-          <li><Link href="/raise" >Raise</Link></li>
+         {session?.user &&<li><Link href="/raise" >Raise</Link></li> }
           <li><Link href="/invest" >Invest</Link></li>
           <li >{bignavName}</li>
           </ul>
@@ -130,7 +130,7 @@ const Navigationbar = () => {
 
       <ul className={!nav ? 'hidden' : 'absolute bg-zinc-200 w-full px-8'}>
           <li className='border-b-2 border-zinc-300 w-full'><Link  href="/" ><a onClick={handleClose}> Home</a></Link></li>
-          <li className='border-b-2 border-zinc-300 w-full'><Link href="/raise" ><a onClick={handleClose}> Raise</a></Link></li>
+          {session?.user &&<li className='border-b-2 border-zinc-300 w-full'><Link href="/raise" ><a onClick={handleClose}> Raise</a></Link></li>}
           <li className='border-b-2 border-zinc-300 w-full'><Link href="/invest"><a onClick={handleClose}> Invest</a></Link></li>
         <div className='flex flex-col my-4'>
             {smallnavButtons}
