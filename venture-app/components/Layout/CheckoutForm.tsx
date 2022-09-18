@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-
+import ForwardIcon from '@mui/icons-material/Forward';
 import CustomDonationInput from './CustomDonationInput'
 import StripeTestCards from './StripeTestCards'
 
@@ -65,12 +65,14 @@ const CheckoutForm = (props) => {
       />
       <StripeTestCards />
       <button
-        className="checkout-style-background"
+        className="h-14 bg-indigo-700 "
         type="submit"
-        disabled={loading}
-      >
-        Invest {formatAmountForDisplay(input.customDonation, config.CURRENCY)}
+        disabled={loading}>
+        <p className='pt-14 p-2 sm:text-sm xl:text-lg font-bold text-white'>Invest {formatAmountForDisplay(input.customDonation, config.CURRENCY)} <ForwardIcon/></p>
+       
+        
       </button>
+     
     </form>
   )
 }

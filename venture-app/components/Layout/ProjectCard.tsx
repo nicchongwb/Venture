@@ -28,32 +28,34 @@ export type ProjectProps = {
 const ProjectCard: React.FC<{ project: ProjectProps }> = ({ project }) => {
   const projectOwner = project.user ? project.user.name : "No owner";
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="140"
-          image="../public/placeholder_image.png"
-          alt="test image placeholder"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {project.title}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {project.description}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button 
-            onClick={() => Router.push("/invest/[id]", `/invest/${project.id}`)} 
-            size="small" 
-            color="primary">
-          LEARN MORE
-        </Button>
-      </CardActions>
-    </Card>
+
+        <Card sx={{ maxWidth: 345 }}>
+          <CardActionArea>
+            <CardMedia
+              component="img"
+              height="140"
+              image={project.image}
+              alt="test image placeholder"
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                {project.title}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {project.description}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+          <CardActions>
+            <Button 
+                onClick={() => Router.push("/invest/[id]", `/invest/${project.id}`)} 
+                size="small" 
+                color="primary">
+              LEARN MORE
+            </Button>
+          </CardActions>
+       </Card>
+   
   );
 };
 

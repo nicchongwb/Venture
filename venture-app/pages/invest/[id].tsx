@@ -5,6 +5,7 @@ import { ProjectProps } from "../../components/Layout/ProjectCard";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "../../components/Layout/CheckoutForm";
 import {useSession} from 'next-auth/react'
+import Image from 'next/image'
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
@@ -25,20 +26,39 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 const Project: React.FC<ProjectProps> = (props) => {
   const {data: session} = useSession()
   return (
-    <div>
-      {
-        <>
-          <p>Title: {props.project.title}</p>
-          <p>Description: {props.project.description}</p>
-          <p>min_investment: {props.project.min_amt}</p>
-          <p>cap_amt: {props.project.cap_amt}</p>
-          <p>raised_amt: {props.project.raise_amt}</p>
-          <p>Business model: {props.project.busi_model}</p>
-        </>
-      }
-      <div>
-        <CheckoutForm id={props.proj_id_num} userEmail={session.user.email}/>
+    <div className="container mx-auto  px-4">
+      <div className="mx-auto my-16 box-content min-h-fit w-5/6 p-8 shadow-lg shadow-indigo-500/50 ">
+        <div>
+          {
+            <>
+            <h2 className="pt-10 pb-4 px-4 text-3xl font-bold mr-4 sm:text-4xl">Title: {props.project.title}</h2>
+            <div className="grid grid-cols-3 gap-16 py-0 px-10">
+              <div className="col-span-2">
+              <h3 className=" font-bold text-lg mr-4 sm:text-xl">Amount Raised: {props.project.raise_amt}</h3>
+                <div className="text-lg font-bold">Description:</div> <p>{props.project.description}</p>
+                <div className="text-lg font-bold ">Business Model:</div> <p>{props.project.busi_model}</p>
+                <div className="text-lg font-bold">Highlights:</div>  <p>{props.project.highlights}</p>
+              </div>
+              <div >
+            <div>
+            <img className="pb-10"src={props.project.image} alt="GFG logo imported from public directory" />
+              <br/>  
+              {session?.user && <CheckoutForm id={props.proj_id_num} userEmail={session.user.email}/>}
+             </div>
+            </div>
+
+            </div>
+              
+              
+
+        
+              
+            </>
+          }
+          
+        </div>
       </div>
+      
     </div>
   );
 };

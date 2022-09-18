@@ -6,7 +6,7 @@ import { storage } from "../../lib/firebase/firebase";
 import {getDownloadURL, listAll, ref, uploadBytes} from "firebase/storage"
 import {v4 } from "uuid";
 import "react-datepicker/dist/react-datepicker.css";
-import { getSession, useSession } from "next-auth/react"
+import {useSession, signOut, signIn} from 'next-auth/react'
 
 
 
@@ -22,7 +22,7 @@ interface FormValues {
     updatedAt: string,
     closingDate: string,
     closingDateFill: Date,
-    email: any
+    email: any,
 }
 
 interface OtherProps {
@@ -40,7 +40,7 @@ async function create(data: FormValues ) {
             },
             method: 'POST'
         }).then(() => {
-          (data.title="", data.description="", data.busi_model="", data.highlights="", data.file="", data.cap_amt=1000, data.min_amt=1000);
+          (data.title="", data.description="", data.busi_model="", data.highlights="", data.file="", data.closingDateFill=new Date());
            alert("Project Submited");
         })
     } catch (error) {
@@ -54,112 +54,105 @@ const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
     const { touched, errors, isSubmitting, message, setFieldValue, values } = props;
     const {data: session, status} = useSession();
     values.email = session?.user?.email
+
     return (
+      <div className="container mx-auto px-8">
+          <h1 className='px-0 py-10 font-bold mr-4 text-5xl'> Raise a project</h1>
         <Form>
-        <div className="input-container">
-            <label>
-             Title:
+        <div className="px-4 input-container">
+            <label className='mr-4 text-2xl'>
+             Title: &nbsp;
               <Field className="input-field" id="title" name="title" type="text" placeholder="Project Title" />
-              {touched.title && errors.title && <div className="error-custom">{errors.title}</div>}
+              {touched.title && errors.title && <div className="text-orange-700">{errors.title}</div>}
             </label>
             <br/>
-            <label>
+            <label className='mr-4 text-2xl pt-6'>
              Project Description:
              <br/>
                 <Field
                 component="textarea"
                 rows="4"
                 cols="80"
-                className="form-control"
+                className="form-control p-2 my-2"
                 id="description"
                 name="description"
                 variant="outlined"
                 label="PROJECT SHORT_DESCRIPTION"
                 fullWidth/>
-                {touched.description && errors.description && <div className="error-custom">{errors.description}</div>}
+                {touched.description && errors.description && <div className="text-orange-700">{errors.description}</div>}
             </label>
             <br/>
 
-            <label>
-             Targetted Raise Amount:
-             <Field className="input-field" id="cap_amt" name="cap_amt" type="number"  />
-             {touched.cap_amt && errors.cap_amt && <div className="error-custom">{errors.cap_amt}</div>}
-            </label>
-            <br/>
-
-            <label>
-             Minmum Investment:
-             <Field className="input-field" id="min_amt" name="min_amt" type="number" />
-             {touched.min_amt && errors.min_amt && <div className="error-custom">{errors.min_amt}</div>}
-            </label>
-            <br/>
-
-            <label>
+            <label className='mr-4 text-2xl pt-6'>
             Company Highlights:
              <br/>
               <Field
                 component="textarea"
                 rows="4"
                 cols="80"
-                className="form-control"
+                className="form-control p-2 my-2"
                 id="highlights"
                 name="highlights"
                 variant="outlined"
                 label="PROJECT SHORT_Hightlight"
                 fullWidth/>
-                {touched.highlights && errors.highlights && <div className="error-custom">{errors.highlights}</div>}
+                {touched.highlights && errors.highlights && <div className="text-orange-700">{errors.highlights}</div>}
             </label>
 
             <br/>
 
-            <label>
+            <label className='mr-4 text-2xl pt-6'>
              Business Model:
              <br/>
              <Field
                 component="textarea"
                 rows="4"
                 cols="80"
-                className="form-control"
+                className="form-control p-2 my-2"
                 id="busi_model"
                 name="busi_model"
                 variant="outlined"
                 label="PROJECT SHORT_Hightlight"
                 fullWidth/>
-                {touched.busi_model && errors.busi_model && <div className="error-custom">{errors.busi_model}</div>}
+                {touched.busi_model && errors.busi_model && <div className="text-orange-700">{errors.busi_model}</div>}
             </label>
             <br/>
 
             <br/>
-            <label>
+            <label className='mr-4 text-2xl pt-6'>
              Upload Project Image:
              <br/>
-              <input id="file" name="file" type="file" accept="image/*"  onChange={(event) => {
+              <input className="my-4" id="file" name="file" type="file" accept="image/*"  onChange={(event) => {
                 setFieldValue("file", event.target.files[0])
               }} />
             </label>
             <br/>
 
             <br/>
-            <label>
+            <label className='mr-4 text-2xl pt-6'>
              Select Funding Close Date:
              <br/>
              <DatePicker 
                       selected={values.closingDateFill}
                       dateFormat="MMMM d, yyyy"
-                      className="form-control"
+                      className="form-control my-2"
                       name="closingDateFill"
                       onChange={date => setFieldValue('closingDateFill', date)}
                     />
-              {touched.closingDateFill && errors.closingDateFill && <div className="error-custom">{errors.closingDateFill}</div>}
+              {touched.closingDateFill && errors.closingDateFill && <div className="text-orange-700">{errors.closingDateFill}</div>}
             </label>
             <br/>
             <br/>
-            <button type="submit">
+            <button className="px-8 py-3 bg-indigo-600 mt-10 mb-5 " type="submit"  >
                 Submit
             </button>
+            {isSubmitting && values.busi_model && <div className="text-emerald-700 text-2xl p-2 mb-20"> Form Submitting...</div>}
 
         </div>
     </Form>
+
+      </div>
+        
     );
 };
 
@@ -177,8 +170,6 @@ interface MyFormProps {
       return {
         title: props.initialTitle || '',
         description: '',
-        cap_amt:1000,
-        min_amt:1000,
         highlights:'',
         busi_model:'',
         image:'',
@@ -187,7 +178,7 @@ interface MyFormProps {
         updatedAt:'',
         createdAt:'',
         closingDateFill: new Date(),
-        email: null
+        email: null,
       };
     },
   
@@ -203,16 +194,6 @@ interface MyFormProps {
         errors.description = 'Required!';
       }else if (!isValidDescription(values.description)) {
         errors.description = 'Description too long!';
-      }
-      if (!values.min_amt ) {
-        errors.min_amt = 'Required!';
-      } else if (!isValidMinimumAnt(values.min_amt)) {
-        errors.min_amt = 'Invalid amount! Enter a number within 1000 to 10000.';
-      }
-      if (!values.cap_amt ) {
-        errors.cap_amt = 'Required!';
-      } else if (!isValidTargetted(values.min_amt, values.cap_amt)) {
-        errors.cap_amt = 'Invalid amount! Targetted Amount cannot be less than Minmum Investment.';
       }
       if (!values.highlights ) {
         errors.highlights = 'Required!';
@@ -234,11 +215,11 @@ interface MyFormProps {
     },
   
     handleSubmit: values => {
-       console.log("HERE!")
-       
-        const sanitizeHtml = require('sanitize-html');
-        
-        if(values.file != null){
+      console.log("HERE!") 
+      const sanitizeHtml = require('sanitize-html');
+      
+      // If file is uploaded handle submit 
+      if(values.file != null){
           // FIle UPload to firebase 
         const imageRef = ref(storage, `images/${values.file.name +v4()}`)
         console.log("filename: "+ values.file.name)
@@ -253,7 +234,7 @@ interface MyFormProps {
                   values.closingDate = values.closingDateFill.toString()
                   values.createdAt = now.toString()
                   values.updatedAt = now.toString()
-                    // do submitting things
+                    // do submitting things when file is successfully uploaded
                   console.log("print values" +values)
                   values.title = sanitizeHtml(values.title)
                   values.description = sanitizeHtml(values.description)
@@ -271,7 +252,8 @@ interface MyFormProps {
           }catch(error){
             console.log("FIle Uploading ERROR:" + error)
           }
-        }else{
+      }else{
+          // submit even when file is not uploaded 
             const now = new Date();
             values.closingDate = values.closingDateFill.toString()
             values.createdAt = now.toString()
@@ -300,14 +282,19 @@ const Raise: NextPage = ({  }) => {
     if(session?.user){
       return (
         <div>
-           <h3> Raise A Project</h3>
+          
+          <div className="flex justify-center container mx-auto ">
+        
            <MyForm message="Post A Project" />
-           <p>Fill up all required values!</p>
+          
         </div>
+
+        </div>
+        
       )
     }else{
       return(
-        <div>
+        <div className="container mx-auto">
           <h3> Not Authorise to raise projects!</h3>
         </div>
       )
@@ -317,13 +304,7 @@ const Raise: NextPage = ({  }) => {
 
 export default Raise
 
-function isValidMinimumAnt(min_amt: number) {
-    if( min_amt <=0 || min_amt < 1000 || min_amt >10000){
-        return false
-    }
-    return true
-}
-
+// custom validation 
 function isValidTitle(title: string) {
     if(title.length > 100){
         return false
@@ -336,18 +317,9 @@ function isValidDescription(description: string) {
     }
     return true
 }
-
-function isValidTargetted(min_amt: number, cap_amt: number) {
-    if(cap_amt < min_amt){
-        return false
-    }
-    return true
-}
-
 function isValidDate(closingDate: Date) {
     const now = new Date();
     console.log("date is " + closingDate)
-
     return closingDate > now
 }
 
