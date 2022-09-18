@@ -69,7 +69,7 @@ const Navigationbar = () => {
             {session.user.name} ({session.user.email})
           </p>
         <button onClick={()=>signOut()} className='bg-transparent text-indigo-600 px-8 py-3 mb-4'>Sign Out</button>
-        <button  className='px-8 py-3'><a className='text-white no-underline' href='/'>Portfolio</a></button>
+        <button  className='px-8 py-3'><a className='text-white no-underline' href='/portfolio'>Portfolio</a></button>
         </div>
       )
     }
@@ -79,7 +79,7 @@ const Navigationbar = () => {
       bignavButtons = (
         <div>
           <button onClick={()=>signOut()} className='border-none bg-transparent text-black mr-4'>Sign Out</button>
-          <button className='px-8 py-3'><a className='text-white no-underline' href='/'>Portfolio</a></button>
+          <button className='px-8 py-3'><a className='text-white no-underline' href='/portfolio'>Portfolio</a></button>
         </div>
         
       )
