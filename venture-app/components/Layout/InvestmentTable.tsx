@@ -12,16 +12,16 @@ type Props = {
 }
  
 
-const ProjectTable: React.FC<Props> = ({ projects }) => {
+const InvestmentTable: React.FC<Props> = ({ projects }) => {
 
   
   
     return (
         <div className="container max-w-7xl mx-auto mt-8">
           <div className="mb-4">
-            <h1 className="font-serif text-3xl font-bold underline decoration-gray-400">My Projects</h1>
+            <h1 className="font-serif text-3xl font-bold underline decoration-gray-400">My Investments</h1>
             <div className="flex justify-end">
-              <button className="px-4 py-2 rounded-md hover:bg-indigo-400  bg-indigo-600 sm:text-base xl:text-lg text-white" onClick={() => router.push("/raise")} >Create Project</button>
+            <button className="px-4 py-2 rounded-md  hover:bg-indigo-400 bg-indigo-600 sm:text-base xl:text-lg text-white" onClick={() => router.push("/invest")} >Create Project</button>
             </div>
           </div>
           <div className="flex flex-col">
@@ -41,14 +41,13 @@ const ProjectTable: React.FC<Props> = ({ projects }) => {
                       <th
                         className="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                         Raised Amount</th>
-                      <th
+
+                    <th
                         className="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                        Created At</th>
+                        Project Owner</th>
                       <th
                         className="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                         Closing Date</th>
-                      <th className="px-6 py-3 text-sm text-left text-gray-500 border-b border-gray-200 bg-gray-50" colSpan={2} >
-                        Action</th>
                     </tr>
                   </thead>
         
@@ -71,25 +70,16 @@ const ProjectTable: React.FC<Props> = ({ projects }) => {
                         </div>
         
                       </td>
-        
-                      <td className="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
-                        <span>{project.createdAt.toString()}</span>
+                      <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                        <p>{project.user?.email}.</p>
                       </td>
+        
+
                       <td className="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
                         <span>{project.closingDate.toString()}</span>
                       </td>
         
-                      <td className="text-sm font-medium leading-5 text-center whitespace-no-wrap border-b border-gray-200 ">
-                       <div className='text-sky-700'><EditIcon/></div>
-                       
-        
-                      </td>
-        
-                  
-                      <td className="text-sm font-medium leading-5 whitespace-no-wrap border-b border-gray-200 ">
-                        
-                        <div className='text-amber-700'><DeleteIcon/></div>
-                      </td>
+                    
                     </tr>
                      ))}
                   </tbody>
@@ -102,4 +92,4 @@ const ProjectTable: React.FC<Props> = ({ projects }) => {
     )
 }
 
-export default ProjectTable;
+export default InvestmentTable;
