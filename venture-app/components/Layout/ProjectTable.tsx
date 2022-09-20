@@ -5,6 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { ProjectProps } from '../Layout/ProjectCard';
 import router from 'next/router';
 import { red } from '@mui/material/colors';
+import { useSession } from 'next-auth/react';
 
 
 
@@ -13,11 +14,30 @@ type Props = {
 }
  
 
-const ProjectTable: React.FC<Props> = ({ projects }) => {
+async function deleteProject(id: string  ) {
 
+  try {
+      console.log("reaching delete"+ id)
+      fetch(`http://localhost:3000/api/project/${id}`,{
+          headers:{
+              'Content-Type': 'application/json'
+          },
+          method: 'DELETE'
+      }).then(() => { 
+        router.push("/portfolio");
+        alert("Project Deleted")
+      })
+  } catch (error) {
+      console.log(error)
+      alert("Something is wrong cannot delete!")
+  }
+}
+
+
+
+const ProjectTable: React.FC<Props> = ({ projects }) => {
   
-  
-    return (
+   return (
         <div className="container max-w-7xl mx-auto mt-8">
           <div className="mb-4">
             <h1 className="font-serif text-3xl font-bold underline decoration-gray-400">My Projects</h1>
@@ -93,7 +113,11 @@ const ProjectTable: React.FC<Props> = ({ projects }) => {
                   
                       <td className="text-sm font-medium leading-5 whitespace-no-wrap border-b border-gray-200 ">
                         
-                        <div className='text-amber-700'><DeleteIcon/></div>
+                        <div className='text-amber-700'>
+                        <button className="bg-transparent border-transparent"onClick={() =>deleteProject(project.id.toString())}>
+                            <DeleteIcon color="error" />
+                          </button>
+                        </div>
                       </td>
                     </tr>
                      ))}

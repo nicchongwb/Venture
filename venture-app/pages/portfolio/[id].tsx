@@ -21,7 +21,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         id: proj_id_num,
       },
     });
-    console.log(project)
+    //console.log(project)
     return {
       props: { project, proj_id_num },
     };
