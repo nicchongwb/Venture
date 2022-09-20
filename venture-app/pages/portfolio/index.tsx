@@ -41,7 +41,7 @@ export const getServerSideProps: GetServerSideProps = async ({req}) => {
                id: { in: investedProjectId?.investedProjects }
             },
         });
-        console.log(myInvestments )
+        //console.log(myInvestments )
         return {
             props: { myProjects, myInvestments },
         };

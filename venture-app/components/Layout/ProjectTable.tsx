@@ -4,6 +4,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ProjectProps } from '../Layout/ProjectCard';
 import router from 'next/router';
+import { red } from '@mui/material/colors';
 
 
 
@@ -43,7 +44,7 @@ const ProjectTable: React.FC<Props> = ({ projects }) => {
                         Raised Amount</th>
                       <th
                         className="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                        Created At</th>
+                        Updated At</th>
                       <th
                         className="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                         Closing Date</th>
@@ -73,14 +74,18 @@ const ProjectTable: React.FC<Props> = ({ projects }) => {
                       </td>
         
                       <td className="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
-                        <span>{project.createdAt.toString()}</span>
+                        <span>{project.updatedAt.toString()}</span>
                       </td>
                       <td className="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
                         <span>{project.closingDate.toString()}</span>
                       </td>
         
                       <td className="text-sm font-medium leading-5 text-center whitespace-no-wrap border-b border-gray-200 ">
-                       <div className='text-sky-700'><EditIcon/></div>
+                       <div className='text-sky-700'>
+                          <button className="bg-transparent border-transparent"onClick={() => router.push("/portfolio/[id]", `/portfolio/${project.id}`)}>
+                            <EditIcon color="primary" />
+                          </button>
+                        </div>
                        
         
                       </td>
