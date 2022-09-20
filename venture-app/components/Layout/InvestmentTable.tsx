@@ -38,9 +38,7 @@ const InvestmentTable: React.FC<Props> = ({ projects }) => {
                         className="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                         Description</th>
 
-                      <th
-                        className="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                        Raised Amount</th>
+                     
 
                     <th
                         className="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
@@ -64,12 +62,7 @@ const InvestmentTable: React.FC<Props> = ({ projects }) => {
                         <p>{project.description}.</p>
                       </td>
 
-                      <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                        <div className="flex items-center">
-                        {project.raise_amt}
-                        </div>
-        
-                      </td>
+                    
                       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                         <p>{project.email}.</p>
                       </td>
