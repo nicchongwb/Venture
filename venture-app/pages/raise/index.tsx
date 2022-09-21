@@ -7,6 +7,7 @@ import {getDownloadURL, listAll, ref, uploadBytes} from "firebase/storage"
 import {v4 } from "uuid";
 import "react-datepicker/dist/react-datepicker.css";
 import {useSession, signOut, signIn} from 'next-auth/react'
+import router from "next/router";
 
 
 
@@ -40,7 +41,7 @@ async function create(data: FormValues ) {
             },
             method: 'POST'
         }).then(() => {
-          (data.title="", data.description="", data.busi_model="", data.highlights="", data.file="", data.closingDateFill=new Date());
+          (router.push("/portfolio"));
            alert("Project Submited");
         })
     } catch (error) {

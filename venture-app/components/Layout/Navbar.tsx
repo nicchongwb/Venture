@@ -1,14 +1,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import Button from 'react-bootstrap/Button';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
-
-
-
 import { useRouter } from 'next/router';
 import {useSession, signOut, signIn} from 'next-auth/react'
 
@@ -69,7 +62,7 @@ const Navigationbar = () => {
             {session.user.name} ({session.user.email})
           </p>
         <button onClick={()=>signOut()} className='bg-transparent text-indigo-600 px-8 py-3 mb-4'>Sign Out</button>
-        <button  className='px-8 py-3'><a className='text-white no-underline' href='/portfolio'>Portfolio</a></button>
+        <button  onClick={() => router.push("/portfolio")} className='px-8 py-3 text-white no-underline'>Portfolio</button>
         </div>
       )
     }
@@ -79,7 +72,7 @@ const Navigationbar = () => {
       bignavButtons = (
         <div>
           <button onClick={()=>signOut()} className='border-none bg-transparent text-black mr-4'>Sign Out</button>
-          <button className='px-8 py-3'><a className='text-white no-underline' href='/portfolio'>Portfolio</a></button>
+          <button onClick={() => router.push("/portfolio")} className='px-8 py-3 text-white'>Portfolio</button>
         </div>
         
       )

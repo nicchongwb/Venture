@@ -18,6 +18,7 @@ export type ProjectProps = {
   closingDate: Date;
   createdAt: Date;
   updatedAt: Date;
+  email: string;
   user: {
     name: string;
     email: string;
