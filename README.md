@@ -11,4 +11,4 @@
 # Set up Stripe webhook
 1. Install stripe CLI (https://stripe.com/docs/stripe-cli)
 2. login with api key
-3. `stripe listen --forward-to http://localhost:3000/webhooks`
+3. `stripe listen --forward-to http://localhost:3000/api/webhooks`
