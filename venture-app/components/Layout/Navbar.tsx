@@ -18,10 +18,10 @@ const Navigationbar = () => {
   let bignavName = null;
 
   // show buttons if user does not exist
-  if (!user) {
+  if (user?.isLoggedIn === false) {
     smallnavButtons = (
       <div>
-        <Link href="/api/auth/login">
+        <Link href="/account/login">
           <button className="bg-transparent text-indigo-600 px-8 py-3 mb-4">
             Log In
           </button>
@@ -30,10 +30,10 @@ const Navigationbar = () => {
     );
   }
 
-  if (!user) {
+  if (user?.isLoggedIn === false) {
     bignavButtons = (
       <div>
-        <Link href="/api/auth/login">
+        <Link href="/account/login">
           <button className="px-8 py-3"> Log In</button>
         </Link>
       </div>
@@ -124,7 +124,7 @@ const Navigationbar = () => {
             <li>
               <Link href="/">Home</Link>
             </li>
-            {/* {session?.user &&<li><Link href="/raise" >Raise</Link></li> } */}
+            {user?.isLoggedIn &&<li><Link href="/raise" >Raise</Link></li> }
             <li>
               <Link href="/invest">Invest</Link>
             </li>
@@ -143,7 +143,7 @@ const Navigationbar = () => {
             <a onClick={handleClose}> Home</a>
           </Link>
         </li>
-        {/* {session?.user &&<li className='border-b-2 border-zinc-300 w-full'><Link href="/raise" ><a onClick={handleClose}> Raise</a></Link></li>} */}
+        {user?.isLoggedIn &&<li className='border-b-2 border-zinc-300 w-full'><Link href="/raise" ><a onClick={handleClose}> Raise</a></Link></li>}
         <li className="border-b-2 border-zinc-300 w-full">
           <Link href="/invest">
             <a onClick={handleClose}> Invest</a>
