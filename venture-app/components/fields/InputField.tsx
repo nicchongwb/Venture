@@ -3,16 +3,10 @@ import { FieldProps } from "formik"
 
 type InputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
-const InputField = ({
+export const InputField = ({
     field, 
     form: _,
     ...props
 }: FieldProps & InputProps) => {
-    return (
-        <div>
-            <input {...field} {...props}/>
-        </div>
-    )
+    return <div><input {...field} {...props}/></div>
 }
-
-export default InputField
