@@ -81,7 +81,7 @@ const Navigationbar = () => {
               await fetchJson("/api/auth/logout", { method: "POST" }),
               false
             );
-            router.push("/api/auth/login");
+            router.push("/account/login");
           }}
           className="border-none bg-transparent text-black mr-4"
         >
