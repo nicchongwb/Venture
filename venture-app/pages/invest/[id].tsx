@@ -4,7 +4,7 @@ import { GetServerSideProps } from "next";
 import { ProjectProps } from "../../components/Layout/ProjectCard";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "../../components/Layout/CheckoutForm";
-import {useSession} from 'next-auth/react'
+import useUser from "../../lib/useUser";
 import Image from 'next/image'
 
 const stripePromise = loadStripe(
@@ -24,7 +24,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 const Project: React.FC<ProjectProps> = (props) => {
-  const {data: session} = useSession()
+  const { user, mutateUser } = useUser();
   return (
     <div className="container mx-auto  px-4">
       <div className="mx-auto my-16 box-content min-h-fit w-5/6 p-8 shadow-lg shadow-indigo-500/50 ">
@@ -43,7 +43,7 @@ const Project: React.FC<ProjectProps> = (props) => {
             <div>
             <img className="pb-10"src={props.project.image} alt="GFG logo imported from public directory" />
               <br/>  
-              {session?.user && <CheckoutForm id={props.proj_id_num} userEmail={session.user.email}/>}
+              {user?.isLoggedIn  === true && <CheckoutForm id={props.proj_id_num} userEmail={user.email}/>}
              </div>
             </div>
 

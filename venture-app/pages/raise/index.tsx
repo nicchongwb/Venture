@@ -6,7 +6,7 @@ import { storage } from "../../lib/firebase/firebase";
 import {getDownloadURL, listAll, ref, uploadBytes} from "firebase/storage"
 import {v4 } from "uuid";
 import "react-datepicker/dist/react-datepicker.css";
-import {useSession, signOut, signIn} from 'next-auth/react'
+import useUser from "../../lib/useUser";
 import router from "next/router";
 
 
@@ -53,8 +53,8 @@ async function create(data: FormValues ) {
 // Aside: You may see InjectedFormikProps<OtherProps, FormValues> instead of what comes below in older code.. InjectedFormikProps was artifact of when Formik only exported a HoC. It is also less flexible as it MUST wrap all props (it passes them through).
 const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
     const { touched, errors, isSubmitting, message, setFieldValue, values } = props;
-    const {data: session, status} = useSession();
-    values.email = session?.user?.email
+    const { user, mutateUser } = useUser();
+    values.email = user?.email
 
     return (
       <div className="container mx-auto px-8">
@@ -279,8 +279,8 @@ interface MyFormProps {
 
 const Raise: NextPage = ({  }) => {
     const [startDate, setStartDate] = useState(new Date()); 
-    const {data: session, status} = useSession();
-    if(session?.user){
+    const { user, mutateUser } = useUser();
+    if(user?.isLoggedIn  === true){
       return (
         <div>
           
