@@ -6,6 +6,7 @@ import SavedSearchIcon from '@mui/icons-material/SavedSearch';
 import LineAxisIcon from '@mui/icons-material/LineAxis';
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import ChatIcon from '@mui/icons-material/Chat';
+import useUser from "../lib/useUser";
 
 const features = [
   {
@@ -35,10 +36,9 @@ const features = [
 ]
 
 const Home:NextPage  = () => {
-  
+  const { user, mutateUser } = useUser();
   return (
     <>
-      
       <div className="m-10 box-content h-[400px] w-90 p-4 shadow-lg bg-indigo-50">
         <div className="grid grid-cols-3 gap-4">
           <div className="col-span-2 py-16 px-20 "> 

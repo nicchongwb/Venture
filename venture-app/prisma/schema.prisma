@@ -11,60 +11,19 @@ datasource db {
 }
 
 model Project {
-  id            Int    @id @default(autoincrement())
-  project_id    String     @default(cuid())
-  title         String
-  description   String
-  raise_amt     Float @default(0)
-  highlights    String
-  busi_model    String
-  image         String
-  closingDate   String
-  createdAt     String 
-  updatedAt     String
-  User          User?    @relation(fields: [email], references: [email])
-  email        String?
-}
-
-model Account {
-  id                 String  @id @default(cuid())
-  userId             String  @map("user_id")
-  type               String
-  provider           String
-  providerAccountId  String  @map("provider_account_id")
-  refresh_token      String?
-  access_token       String?
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?
-  session_state      String?
-  oauth_token_secret String?
-  oauth_token        String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
-}
-
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique @map("session_token")
-  userId       String   @map("user_id")
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  project       Project[]
-  investedProjects Int[]
-  accounts      Account[]
-  sessions      Session[]
+  id          Int     @id @default(autoincrement())
+  project_id  String  @default(cuid())
+  title       String
+  description String
+  raise_amt   Float   @default(0)
+  highlights  String
+  busi_model  String
+  image       String
+  closingDate String
+  createdAt   String
+  updatedAt   String
+  User        User?   @relation(fields: [email], references: [email])
+  email       String?
 }
 
 model VerificationToken {
@@ -74,4 +33,18 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model User {
+  id               String    @id @default(cuid())
+  firstName        String?
+  lastName         String
+  email            String?   @unique
+  emailVerified    Boolean   @default(false)
+  password         String
+  image            String?
+  project          Project[]
+  investedProjects Int[]
+  //accounts         Account[]
+  //sessions         Session[]
 }

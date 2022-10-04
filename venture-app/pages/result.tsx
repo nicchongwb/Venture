@@ -2,16 +2,9 @@ import { useRouter } from "next/router";
 import useSWR from 'swr'
 import { fetchGetJSON } from '../utils/api-helpers'
 import PrintObject from "../components/Layout/PrintObject";
-import {useSession} from 'next-auth/react'
-
-
-
-
 
 export default function Result() {
     const router = useRouter();
-
-    const {data: session, status} = useSession()
 
     const { data, error } = useSWR(
         router.query.session_id
