@@ -4,8 +4,7 @@ import { InputField } from "../../components/fields/InputField";
 import * as Yup from "yup";
 import { useRouter } from "next/router";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-// import bcrypt from 'bcrypt'
-// import argon2 from "argon2";
+
 
 const RegisterSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -35,12 +34,7 @@ export type AccountProps = {
 
 // call api to update db with account
 async function register(account: AccountProps) {
-  // HASH PASSWORD HERE
-  // const hashed = bcrypt.hash(account.password, 10)
-
-  //  const hash = await argon2.hash(account.password);
-  // console.log(hash)
-
+ 
   const response = await fetch("/api/auth/register", {
     method: "POST",
     body: JSON.stringify(account),
