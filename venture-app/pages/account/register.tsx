@@ -16,8 +16,9 @@ const RegisterSchema = Yup.object().shape({
     .required("Required"),
   email: Yup.string().email("Invalid email").required("Required"),
   password: Yup.string()
-    .min(8, "Too Short!")
-    .max(25, "Too Long!")
+    .min(8, "Minimum eight characters!")
+    .max(25, "Too complex!")
+    .matches(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[\d])([A-Za-z\d])+$/, "At least one uppercase letter, one lowercase letter and one number!")
     .required("Required"),
 });
 
@@ -142,7 +143,7 @@ export default () => {
             <div>{errors.password}</div>
           ) : null}
           <div className="flex justify-center">
-          <button className=" px-8 py-3 bg-indigo-600 mt-10 mb-5 " type="submit">Register</button>
+          <button className=" rounded px-44 py-2 bg-indigo-600 mt-10 mb-5 " type="submit">Register</button>
           </div>
           {emailExists && (
             <div>Email already in use, please try another email.</div>
