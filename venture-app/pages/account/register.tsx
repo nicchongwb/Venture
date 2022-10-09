@@ -142,7 +142,7 @@ export default () => {
             <div>{errors.password}</div>
           ) : null}
           <div className="flex justify-center">
-          <button className=" px-8 py-3 bg-indigo-600 mt-10 mb-5 " type="submit">Register</button>
+          <button className=" rounded px-44 py-2 bg-indigo-600 mt-10 mb-5 " type="submit">Register</button>
           </div>
           {emailExists && (
             <div>Email already in use, please try another email.</div>

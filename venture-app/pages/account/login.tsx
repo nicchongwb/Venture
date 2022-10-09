@@ -100,7 +100,7 @@ export default () => {
           />
           </label>
           <div className="flex justify-center">
-            <button className=" px-8 py-3 bg-indigo-600 mt-10 mb-5 " type="submit">Login</button>
+            <button className=" rounded px-44 py-2 bg-indigo-600 mt-10 mb-5 " type="submit">Login</button>
           </div>
           <div className="flex justify-center">
            No account on venture? &nbsp;<a href="/account/register"> Register now</a>
