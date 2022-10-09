@@ -3,6 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import type { User } from './user'
 import { withIronSessionApiRoute } from 'iron-session/next'
 import { sessionOptions } from '../../../lib/session'
+import { verifyTOTP } from '../../../lib/totp';
 
 export default withIronSessionApiRoute(loginRoute, sessionOptions)
 
@@ -11,23 +12,24 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
         return res.status(405).json({message: 'Method not allowed'})
     }
     const accountData = req.body;
+
     const userDetails = await prisma.user.findUnique({
         where: {
             email: accountData.email
         },
         select: {
-            password: true
+            password: true,
+            mfaSecret: true
         }
     })
 
     if (accountData.password === userDetails!.password) {
-        console.log("successful password")
-        const user = { isLoggedIn: true, email: accountData.email } as User
-        req.session.user = user
-        console.log(user)
-        await req.session.save()
-        return res.json(user);
-        
+        if(verifyTOTP(accountData.mfa, userDetails?.mfaSecret)) {
+            const user = { isLoggedIn: true, email: accountData.email } as User      
+            req.session.user = user
+            await req.session.save()
+            return res.json(user);
+        }
     }
     return res.status(500).send({login: false})
 }

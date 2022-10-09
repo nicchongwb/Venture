@@ -17,7 +17,7 @@ type Props = {
 async function deleteProject(id: string  ) {
 
   try {
-      console.log("reaching delete"+ id)
+      //console.log("reaching delete"+ id)
       fetch(`http://localhost:3000/api/project/${id}`,{
           headers:{
               'Content-Type': 'application/json'
