@@ -33,8 +33,6 @@ export type AccountProps = {
 
 // call api to update db with account
 async function register(account: AccountProps) {
-
-
   const response = await fetch("/api/auth/register", {
     method: "POST",
     body: JSON.stringify(account),

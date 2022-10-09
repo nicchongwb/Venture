@@ -5,6 +5,9 @@ import base32Encode from "base32-encode";
 import crypto from "crypto";
 import util from "util";
 import nodemailer from "nodemailer";
+import type { AccountProps } from "../../account/register"
+import argon2 from "argon2";
+
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   async function generateQR() {
@@ -27,6 +30,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const period = "30";
   const otpType = "totp";
   const configUri = `otpauth://${otpType}/${issuer}:${accountData.email}?algorithm=${algorithm}&digits=${digits}&period=${period}&issuer=${issuer}&secret=${accountData.mfaSecret}`;
+
+  accountData.password = await argon2.hash(accountData.password, {
+      type: argon2.argon2id,
+      parallelism: 2,
+      memoryCost: 2 ** 14,
+  });
 
   try {
     const savedAccount = await prisma.user.create({
@@ -67,4 +76,4 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     error = "Email already exists";
     res.json(error);
   }
-};
+}; 
