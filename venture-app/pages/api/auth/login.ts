@@ -24,7 +24,7 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
         }
     })
 
-    if (await argon2.verify(accountData.password, userDetails!.password)) {
+    if (await argon2.verify(userDetails!.password, accountData.password)) {
         if(verifyTOTP(accountData.mfa, userDetails?.mfaSecret)) {
             const user = { isLoggedIn: true, email: accountData.email } as User      
             req.session.user = user
