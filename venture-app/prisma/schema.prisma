@@ -45,6 +45,7 @@ model User {
   image            String?
   project          Project[]
   investedProjects Int[]
+  mfaSecret        String
   //accounts         Account[]
   //sessions         Session[]
 }

@@ -5,7 +5,6 @@ import * as Yup from "yup";
 import { useRouter } from "next/router";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-
 const RegisterSchema = Yup.object().shape({
   firstName: Yup.string()
     .min(3, "Too Short!")
@@ -34,7 +33,6 @@ export type AccountProps = {
 
 // call api to update db with account
 async function register(account: AccountProps) {
- 
   const response = await fetch("/api/auth/register", {
     method: "POST",
     body: JSON.stringify(account),
@@ -67,7 +65,6 @@ export default () => {
           if (response === "Email already exists") emailExists = true;
           else {
             emailExists = false;
-            // after success, redirct to hom. need some feedback on success like a toast
             router.push("/account/check-email");
           }
         } catch (err) {

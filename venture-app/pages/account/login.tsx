@@ -13,14 +13,7 @@ async function login(
   mutateUser: KeyedMutator<User>,
   setErrorMsg: React.Dispatch<React.SetStateAction<string>>
 ) {
-  // const response = await fetch("/api/auth/login", {
-  //   method: "POST",
-  //   body: JSON.stringify(data),
-  // });
 
-  // if (!response.ok) {
-  //   throw new Error(response.statusText);
-  // }
   try {
     mutateUser(
       await fetchJson("/api/auth/login", {
@@ -36,12 +29,11 @@ async function login(
       console.error("An unexpected error happened: ", error);
     }
   }
-  //return await response.json();
+
 }
 
 export default () => {
   // redirect if already logged in
-
   const { mutateUser } = useUser({
     redirectTo: "/",
     redirectIfFound: true,
@@ -51,17 +43,14 @@ export default () => {
   const router = useRouter();
   return (
     <Formik
-      //call your auth/register route while passing data in onsubmit
-      // has to be async anonym func and need to await
       initialValues={{
         email: "",
         password: "",
+        mfa: "",
       }}
       onSubmit={async (data) => {
         try {
           const response = await login(data, mutateUser, setErrorMsg);
-          // logged in successfully
-          //console.log("response from login: ", response.ok);
           setErrorMsg("");
         } catch (err) {
           setErrorMsg("Invalid Login");
@@ -101,6 +90,15 @@ export default () => {
           />
           </label>
           <br/> 
+          <label className='mr-4 text-2xl pt-6'>
+             2FA pin:
+             <br/>
+          <Field
+            name="mfa"
+            placeholder="mfa"
+            component={InputField}
+          />
+          </label>
           <div className="flex justify-center">
             <button className=" px-8 py-3 bg-indigo-600 mt-10 mb-5 " type="submit">Login</button>
           </div>
