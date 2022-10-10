@@ -12,7 +12,7 @@ export default () => {
             <div className="flex justify-center "> <h1> Registered Successfully </h1> </div>
             <div className="flex justify-center ">  <p>Registration successful, please scan the QR in your mail box to setup 2FA with Google Authenticator App.</p></div>
           <div className="flex justify-center ">
-            <button className=" rounded px-44 py-2 bg-indigo-600 mt-10 mb-5 "  onClick={() => router.push("/")}>Return Home</button> 
+            <button className=" rounded px-44 py-2 bg-indigo-600 mt-10 mb-5 "  onClick={() => router.push("/account/login")}>Return Home</button> 
           </div>
           
 
