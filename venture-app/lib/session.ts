@@ -7,6 +7,7 @@ export const sessionOptions: IronSessionOptions = {
   cookieName: 'iron-session',
   // secure: true should be used in production (HTTPS) but can't be used in development (HTTP)
   cookieOptions: {
+    maxAge:  60*30 , //expire after 30 mins
     secure: process.env.NODE_ENV === 'production',
   },
 }

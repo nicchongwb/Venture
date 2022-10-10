@@ -67,6 +67,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
           console.log("Registeration unsuccessful");
+          console.log("Registeration unsuccessful" + error);
         }
       });
     });
