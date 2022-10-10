@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -22,8 +19,8 @@ model Project {
   closingDate String
   createdAt   String
   updatedAt   String
-  User        User?   @relation(fields: [email], references: [email])
   email       String?
+  User        User?   @relation(fields: [email], references: [email], onDelete: Cascade)
 }
 
 model VerificationToken {
@@ -43,9 +40,7 @@ model User {
   emailVerified    Boolean   @default(false)
   password         String
   image            String?
-  project          Project[]
   investedProjects Int[]
   mfaSecret        String
-  //accounts         Account[]
-  //sessions         Session[]
+  project          Project[]
 }
