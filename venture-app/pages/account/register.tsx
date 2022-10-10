@@ -4,6 +4,11 @@ import { InputField } from "../../components/fields/InputField";
 import * as Yup from "yup";
 import { useRouter } from "next/router";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { GetServerSideProps } from "next";
+import  { zxcvbn, zxcvbnOptions } from '@zxcvbn-ts/core'
+import zxcvbnCommonPackage from '@zxcvbn-ts/language-common'
+import zxcvbnEnPackage from '@zxcvbn-ts/language-en'
+
 
 const RegisterSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -18,8 +23,43 @@ const RegisterSchema = Yup.object().shape({
   password: Yup.string()
     .min(8, "Minimum eight characters!")
     .max(25, "Too complex!")
-    .matches(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[\d])([A-Za-z\d])+$/, "At least one uppercase letter, one lowercase letter and one number!")
-    .required("Required"),
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\w\W]+$/, "At least one uppercase letter, one lowercase letter and one number!")
+    .required("Required")
+    .test(
+      'validate-passwd',
+      '',
+      (data, { createError }) => { 
+        // you can get it here
+        if (!data) return false;
+        
+        const options = {
+          translations: zxcvbnEnPackage.translations,
+          graphs: zxcvbnCommonPackage.adjacencyGraphs,
+          dictionary: {
+            ...zxcvbnCommonPackage.dictionary,
+            ...zxcvbnEnPackage.dictionary,
+          },
+        }
+      
+        zxcvbnOptions.setOptions(options)
+        if(data != null){
+          const result = zxcvbn(data)
+          if (result.guessesLog10 < 8 && result.guesses < 100000000 && result.score < 3 ) {
+            console.log("guesses: "+ result.guesses)
+            console.log("guessesLog10: "+ result.guessesLog10)
+            console.log("score: "+ result.score)
+            return createError({
+            message: `Password too simple!\nPassword strength: `+result.score +" / 4" ,
+            });
+          }
+          else{
+            return true;
+          }
+        }
+
+        
+      }
+    ),
 });
 
 // do field level validation for field password
@@ -46,7 +86,7 @@ async function register(account: AccountProps) {
   return await response.json();
 }
 
-export default () => {
+export default ()=> {
   const router = useRouter();
   let emailExists = false;
   return (
@@ -60,22 +100,25 @@ export default () => {
         password: "",
       }}
       validationSchema={RegisterSchema}
+
       onSubmit={async (data) => {
-        try {
-          const response = await register(data);
-          if (response === "Email already exists") emailExists = true;
-          else {
-            emailExists = false;
-            router.push("/account/check-email");
+       
+          try {
+            const response = await register(data);
+            if (response === "Email already exists") emailExists = true;
+            else {
+              emailExists = false;
+              router.push("/account/check-email");
+            }
+          } catch (err) {
+            console.log(err);
           }
-        } catch (err) {
-          console.log(err);
-        }
+        
+        
       }}
     >
       {({ handleSubmit, errors, touched }) => (
         <div className="flex justify-center p-2 mx-auto my-10 shadow-lg w-1/2">
-       
         <form  onSubmit={handleSubmit}>
         <div className="flex justify-center ">
         <AccountCircleIcon  className="text-indigo-600 text-6xl"/> 
@@ -154,3 +197,7 @@ export default () => {
     </Formik>
   );
 };
+
+
+
+
