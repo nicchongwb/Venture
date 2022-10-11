@@ -9,7 +9,6 @@ Order to compose:
 
 ```bash
 cd deployment
-docker build . # build Dockerfile
 
 chmod +x deploy.sh
 chmod +x teardown.sh
@@ -24,7 +23,7 @@ cd { nginx | venture | jenkins | grafana_prometheus }
 docker compose --env-file ../dockerenv config # Run this to make sure the env vars are loaded properly
 
 docker compose --env-file ../dockerenv up --build -d # -d optional for detached mode
-curl -H "Host: letsventure.ml" letsventure.ml # To test app
+curl -H "Host: letsventure.ml" https://letsventure.ml # To test app
 
 docker compose --env-file ../dockerenv down # Compose down
 
