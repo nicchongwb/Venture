@@ -19,6 +19,9 @@ const RegisterSchema = Yup.object().shape({
     .max(20, "Too Long!")
     .required("Required"),
   email: Yup.string().email("Invalid email").required("Required"),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password'), null], 'Passwords must match')
+    .required("Required"),
   password: Yup.string()
     .min(8, "Minimum eight characters!")
     .max(25, "Too complex!")
@@ -97,6 +100,7 @@ export default ()=> {
         lastName: "",
         email: "",
         password: "",
+        confirmPassword: "",
       }}
       validationSchema={RegisterSchema}
 
@@ -184,6 +188,26 @@ export default ()=> {
           {errors.password && touched.password ? (
             <div>{errors.password}</div>
           ) : null}
+
+        <label className='mr-4 text-2xl pt-6'>
+             Confirm Password:
+             <br/>
+          <Field
+            name="confirmPassword"
+            placeholder="confirmPassword"
+            type="password"
+            component={InputField}
+          />
+          </label>
+          <br/> 
+          <br/> 
+          {errors.confirmPassword && touched.confirmPassword ? (
+            <div>{errors.confirmPassword}</div>
+          ) : null}
+
+
+
+
           <div className="flex justify-center">
           <button className=" rounded px-44 py-2 bg-indigo-600 mt-10 mb-5 " type="submit">Register</button>
           </div>
