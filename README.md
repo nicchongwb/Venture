@@ -12,3 +12,13 @@
 1. Install stripe CLI (https://stripe.com/docs/stripe-cli)
 2. login with api key
 3. `stripe listen --forward-to http://localhost:3000/api/webhooks`
+
+
+# Docker deployment
+Note that not secrets must be inside .env-docker
+```bash
+cd deployment
+docker build . # build Dockerfile
+docker-compose --env-file dockerenv up -d # -d optional for detached mode
+curl -H "Host: letsventure.ml" letsventure.ml # To test app
+```
