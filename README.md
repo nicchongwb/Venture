@@ -15,8 +15,10 @@
 
 
 # Docker deployment
+Note that not secrets must be inside .env-docker
 ```bash
+cd deployment
 docker build . # build Dockerfile
-docker-compose up -d # -d optional for detached mode
-curl -H "Host: letsventure.ml" letsventure.ml 
+docker-compose --env-file dockerenv up -d # -d optional for detached mode
+curl -H "Host: letsventure.ml" letsventure.ml # To test app
 ```

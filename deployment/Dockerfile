@@ -1,4 +1,9 @@
-FROM nginxproxy/nginx-proxy
+FROM owasp/modsecurity-crs:nginx
+
+FROM nginxproxy/docker-gen
+FROM nginxproxy/acme-companion
+
+
 FROM docker:dind
 FROM jenkinsci/blueocean:latest
 
