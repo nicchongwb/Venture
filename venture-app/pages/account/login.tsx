@@ -7,6 +7,17 @@ import useUser from "../../lib/useUser";
 import { KeyedMutator } from "swr";
 import { User } from "../api/auth/user";
 import LockOpenIcon from '@mui/icons-material/LockOpen';
+import type { GetServerSideProps } from 'next';
+import { propTypes } from "react-bootstrap/esm/Image";
+
+type Props = {
+  csrfToken: string
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ res }) => {
+  const csrfToken = res.getHeader('x-csrf-token');
+  return { props: { csrfToken } };
+};
 
 async function login(
   data: any,
@@ -31,8 +42,8 @@ async function login(
   }
 
 }
-
-export default () => {
+//export default ()
+const FormPage: React.FunctionComponent<Props> = ({ csrfToken }) => {
   // redirect if already logged in
   const { mutateUser } = useUser({
     redirectTo: "/",
@@ -47,6 +58,7 @@ export default () => {
         email: "",
         password: "",
         mfa: "",
+        csrf_token: csrfToken,
       }}
       onSubmit={async (data) => {
         try {
@@ -99,6 +111,13 @@ export default () => {
             component={InputField}
           />
           </label>
+          <label className='mr-4 text-2xl pt-6'>
+          <Field
+            name="csrf_token"
+            type="hidden"
+            // value={csrfToken}
+          />
+          </label>
           <div className="flex justify-center">
             <button className=" rounded px-44 py-2 bg-indigo-600 mt-10 mb-5 " type="submit">Login</button>
           </div>
@@ -113,3 +132,6 @@ export default () => {
     </Formik>
   );
 };
+
+export default FormPage;
+
