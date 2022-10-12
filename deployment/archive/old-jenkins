@@ -22,9 +22,7 @@ services:
 
   # Jenkins - Main Jenkins service
   jenkins:
-    build:
-      dockerfile: ./Dockerfile
-      context: ./
+    image: jenkinsci/blueocean:latest
     container_name: jenkins_blueocean
     restart: always
     depends_on:
@@ -35,7 +33,7 @@ services:
           - jenkins
     user: root
     environment:
-      DOCKER_HOST: tcp://docker:2376
+      DOCKER_HOST: docker
       DOCKER_CERT_PATH: /certs/client
       DOCKER_TLS_VERIFY: 1
       VIRTUAL_HOST: ${JENKINS_DOMAIN}
@@ -47,6 +45,8 @@ services:
     ports:
       - "8080:8080"
       - "50000:50000"
+    # expose:
+    #   - "8080"
 
   # End of Jenkins
 

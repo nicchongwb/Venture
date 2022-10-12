@@ -1,13 +1,4 @@
-FROM owasp/modsecurity-crs:nginx
-
-FROM nginxproxy/docker-gen
-FROM nginxproxy/acme-companion
-
-
-FROM docker:dind
-FROM jenkinsci/blueocean:latest
-
-FROM jenkins/jenkins:2.361.2-jdk11
+FROM jenkins/jenkins:lts-jdk11
 USER root
 RUN apt-get update && apt-get install -y lsb-release
 RUN curl -fsSLo /usr/share/keyrings/docker-archive-keyring.asc \
