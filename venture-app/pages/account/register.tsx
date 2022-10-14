@@ -20,7 +20,7 @@ const RegisterSchema = Yup.object().shape({
     .required("Required"),
   email: Yup.string().email("Invalid email").required("Required"),
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password'), null], 'Passwords must match')
+    .oneOf([Yup.ref('password'), null], 'Passwords must match!')
     .required("Required"),
   password: Yup.string()
     .min(8, "Minimum eight characters!")
