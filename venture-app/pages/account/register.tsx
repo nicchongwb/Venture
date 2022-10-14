@@ -194,7 +194,7 @@ export default ()=> {
              <br/>
           <Field
             name="confirmPassword"
-            placeholder="confirmPassword"
+            placeholder="password"
             type="password"
             component={InputField}
           />
