@@ -18,7 +18,7 @@ async function deleteProject(id: string  ) {
 
   try {
       //console.log("reaching delete"+ id)
-      fetch(`http://localhost:3000/api/project/${id}`,{
+      fetch(`${process.env.NEXTAUTH_URL}/api/project/${id}`,{
           headers:{
               'Content-Type': 'application/json'
           },

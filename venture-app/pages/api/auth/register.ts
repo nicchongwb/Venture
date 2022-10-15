@@ -5,7 +5,6 @@ import base32Encode from "base32-encode";
 import crypto from "crypto";
 import util from "util";
 import nodemailer from "nodemailer";
-import type { AccountProps } from "../../account/register"
 import argon2 from "argon2";
 
 
@@ -54,7 +53,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           pass: process.env.EMAIL_SECRET,
         },
       });
-
       let mailOptions = {
         from: "letsventurecsd@outlook.com",
         to: accountData.email,
@@ -63,7 +61,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         attachDataUrls: true,//to accept base64 content in messsage
         html: 'Please use an authenticator app and scan this QR code to complete the registeration process </br><img src="' +img+'">',
       };
-
+      
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
           console.log("Registeration unsuccessful");
@@ -71,7 +69,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         }
       });
     });
-
+    
     res.json(200);
   } catch (e) {
     error = "Email already exists";

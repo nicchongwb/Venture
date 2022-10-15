@@ -28,6 +28,7 @@ venture-app/.pnpm-debug.log*
 # local env files
 venture-app/.env*.local
 venture-app/.env
+deployment/venture/dockerenv
 
 # vercel
 venture-app/.vercel
