@@ -12,7 +12,7 @@ const stripePromise = loadStripe(
 );
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const project_id = ctx.query.id;
-  const proj_id_num: number = +project_id;
+  const proj_id_num: number | null = +project_id!;
   const project = await prisma.project.findUnique({
     where: {
       id: proj_id_num,
@@ -23,7 +23,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   };
 };
 
-const Project: React.FC<ProjectProps> = (props) => {
+const Project: React.FC<ProjectProps> = (props: any) => {
   const { user, mutateUser } = useUser();
   return (
     <div className="container mx-auto  px-4">
@@ -41,7 +41,7 @@ const Project: React.FC<ProjectProps> = (props) => {
               </div>
               <div >
             <div>
-            <img className="pb-10"src={props.project.image} alt="GFG logo imported from public directory" />
+            <Image className="pb-10" src={props.project.image} alt="GFG logo imported from public directory" />
               <br/>  
               {user?.isLoggedIn  === true && <CheckoutForm id={props.proj_id_num} userEmail={user.email}/>}
              </div>

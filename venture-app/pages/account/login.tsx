@@ -8,7 +8,7 @@ import { KeyedMutator } from "swr";
 import { User } from "../api/auth/user";
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import type { GetServerSideProps } from 'next';
-import { propTypes } from "react-bootstrap/esm/Image";
+import Link from 'next/link';
 
 type Props = {
   csrfToken: string
@@ -122,7 +122,7 @@ const FormPage: React.FunctionComponent<Props> = ({ csrfToken }) => {
             <button className=" rounded px-44 py-2 bg-indigo-600 mt-10 mb-5 " type="submit">Login</button>
           </div>
           <div className="flex justify-center">
-           No account on venture? &nbsp;<a href="/account/register"> Register now</a>
+           No account on venture? &nbsp;<Link href="/account/register"> Register now</Link>
           </div>
           <br></br>
           {errorMsg}

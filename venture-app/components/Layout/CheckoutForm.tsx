@@ -8,7 +8,7 @@ import { fetchPostJSON } from '../../utils/api-helpers'
 import { formatAmountForDisplay } from '../../utils/stripe-helpers'
 import * as config from '../../config'
 
-const CheckoutForm = (props) => {
+const CheckoutForm = (props: any) => {
 
   const [loading, setLoading] = useState(false)
   const [input, setInput] = useState({

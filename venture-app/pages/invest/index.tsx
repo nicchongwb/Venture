@@ -7,11 +7,7 @@ import ProjectCard from '../../components/Layout/ProjectCard';
 export const getStaticProps: GetStaticProps = async () => {
     // 👇️ const now: Date
     const now = new Date();
-    console.log("date:"+now.toString())
     const projects = (await prisma.project.findMany()).filter(project => new Date(project.closingDate) >= now);
-  
-
-    console.log(projects)
     return {
         props: { projects },
         revalidate: 10
