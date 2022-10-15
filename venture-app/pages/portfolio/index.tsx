@@ -31,27 +31,30 @@ export const getServerSideProps = withIronSessionSsr(async function ({
     };
   } else {
     //prisma query here
-    const myProjects: any = await prisma.project.findMany({
-      where: {
-        email: user?.email,
-      },
-    });
-    const investedProjectId = await prisma.user.findUnique({
-      where: {
-        email: user?.email,
-      },
-      select: {
-        investedProjects: true,
-      },
-    });
-    const myInvestments = await prisma.project.findMany({
-      where: {
-        id: { in: investedProjectId?.investedProjects },
-      },
-    });
+    // const myProjects: any = await prisma.project.findMany({
+    //   where: {
+    //     email: user?.email,
+    //   },
+    // });
+    // const investedProjectId = await prisma.user.findUnique({
+    //   where: {
+    //     email: user?.email,
+    //   },
+    //   select: {
+    //     investedProjects: true,
+    //   },
+    // });
+    // const myInvestments = await prisma.project.findMany({
+    //   where: {
+    //     id: { in: investedProjectId?.investedProjects },
+    //   },
+    // });
+    // return {
+    //   props: { myProjects: myProjects, myInvestments: myInvestments, user: user},
+    // };
     return {
-      props: { myProjects: myProjects, myInvestments: myInvestments, user: user},
-    };
+      props: {user: user}
+    }
   }
 },
 sessionOptions);
@@ -61,7 +64,7 @@ type Props = {
   myInvestments: ProjectProps[];
 };
 
-const Portfolio: React.FC<any> = ({props}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Portfolio: any = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [value, setValue] = useState("1");
 
   const handleChange = (event: any, newValue: any) => {
@@ -84,13 +87,13 @@ const Portfolio: React.FC<any> = ({props}: InferGetServerSidePropsType<typeof ge
               <Tab label="Investments" value="2" />
             </TabList>
           </Box>
-
+{/* 
           <TabPanel value="1">
             <ProjectTable projects={props.myProjects} key={1} />
           </TabPanel>
           <TabPanel value="2">
             <InvestmentTable projects={props.myInvestments} key={1} />
-          </TabPanel>
+          </TabPanel> */}
         </TabContext>
       </div>
     );
