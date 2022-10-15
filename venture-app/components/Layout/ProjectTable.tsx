@@ -10,7 +10,7 @@ import { useSession } from 'next-auth/react';
 
 
 type Props = {
-  projects: ProjectProps[]
+  projects: any
 }
  
 

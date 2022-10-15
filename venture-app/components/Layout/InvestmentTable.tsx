@@ -8,7 +8,7 @@ import router from 'next/router';
 
 
 type Props = {
-  projects: ProjectProps[]
+  projects: any
 }
  
 
