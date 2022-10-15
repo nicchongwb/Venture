@@ -9,21 +9,17 @@ import { prisma } from "../../lib/prisma";
 import ProjectTable from "../../components/Layout/ProjectTable";
 import InvestmentTable from "../../components/Layout/InvestmentTable";
 import { ProjectProps } from "../../components/Layout/ProjectCard";
-import { withIronSessionSsr } from "iron-session/next";
-import { sessionOptions } from "../../lib/session";
+import { withSessionSSR } from "../../lib/session";
 import {User} from '../api/auth/user'
-import { InferGetServerSidePropsType } from 'next'
+import { GetServerSidePropsContext, InferGetServerSidePropsType, NextApiRequest, NextApiResponse } from 'next'
 
-export const getServerSideProps = withIronSessionSsr(async function ({
-  req,
-  res,
-}) {
-  const user = req.session.user;
+
+export const getServerSideProps = withSessionSSR (async function (context: GetServerSidePropsContext ) {
+  const { req } = context
+  const user = req.session.user
 
   if (user === undefined) {
-    res.setHeader("location", "/login");
-    res.statusCode = 302;
-    res.end();
+    
     return {
       props: {
         user: { isLoggedIn: false, email: ""} as User,
@@ -31,33 +27,29 @@ export const getServerSideProps = withIronSessionSsr(async function ({
     };
   } else {
     //prisma query here
-    // const myProjects: any = await prisma.project.findMany({
-    //   where: {
-    //     email: user?.email,
-    //   },
-    // });
-    // const investedProjectId = await prisma.user.findUnique({
-    //   where: {
-    //     email: user?.email,
-    //   },
-    //   select: {
-    //     investedProjects: true,
-    //   },
-    // });
-    // const myInvestments = await prisma.project.findMany({
-    //   where: {
-    //     id: { in: investedProjectId?.investedProjects },
-    //   },
-    // });
-    // return {
-    //   props: { myProjects: myProjects, myInvestments: myInvestments, user: user},
-    // };
+    const myProjects: any = await prisma.project.findMany({
+      where: {
+        email: user?.email,
+      },
+    });
+    const investedProjectId = await prisma.user.findUnique({
+      where: {
+        email: user?.email,
+      },
+      select: {
+        investedProjects: true,
+      },
+    });
+    const myInvestments = await prisma.project.findMany({
+      where: {
+        id: { in: investedProjectId?.investedProjects },
+      },
+    });
     return {
-      props: {user: user}
-    }
+      props: { myProjects: myProjects, myInvestments: myInvestments, user: user},
+    };
   }
-},
-sessionOptions);
+});
 
 type Props = {
   myProjects: ProjectProps[];
@@ -87,13 +79,13 @@ const Portfolio: any = (props: InferGetServerSidePropsType<typeof getServerSideP
               <Tab label="Investments" value="2" />
             </TabList>
           </Box>
-{/* 
+
           <TabPanel value="1">
             <ProjectTable projects={props.myProjects} key={1} />
           </TabPanel>
           <TabPanel value="2">
             <InvestmentTable projects={props.myInvestments} key={1} />
-          </TabPanel> */}
+          </TabPanel>
         </TabContext>
       </div>
     );

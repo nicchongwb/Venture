@@ -17,6 +17,7 @@ import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
 import "react-datepicker/dist/react-datepicker.css";
 import router from "next/router";
+import useUser from "../../lib/useUser";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const project_id = ctx.query.id;
@@ -74,8 +75,9 @@ async function edit(data: FormValues) {
 const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
   const { touched, errors, isSubmitting, setFieldValue, values } = props;
   const errorsString: string | undefined = errors.closingDate;
-  const { data: session, status } = useSession();
-  values.email = session?.user?.email;
+  
+  const { user, mutateUser } = useUser();
+  values.email = user?.email;
 
   return (
     <div className="container mx-auto px-8">
@@ -340,23 +342,25 @@ function isValidDate(closingDate: Date) {
   return closingDate > now;
 }
 
-const PortfolioProject: React.FC<ProjectProps> = (props) => {
-  return (<></>)
-  // if (!session) {
-  //   return (
-  //     <div>
-  //       <h1>My Projects</h1>
-  //       <div>You need to be authenticated to view this page.</div>
-  //     </div>
-  //   );
-  // }
-  // return (
-  //   <div>
-  //     <div className="flex justify-center container mx-auto ">
-  //       <MyForm project={props.project} />
-  //     </div>
-  //   </div>
-  // );
+const PortfolioProject: React.FC<MyFormProps> = (props) => {
+
+  const { user, mutateUser } = useUser();
+  if (user?.isLoggedIn === true) {
+    return (
+      <div>
+      <div className="flex justify-center container mx-auto ">
+        <MyForm project={props.project} />
+      </div>
+    </div>
+     
+    );
+  }
+  return (
+    <div>
+      <h1>My Projects</h1>
+      <div>You need to be authenticated to view this page.</div>
+    </div>
+  );
 };
 
 export default PortfolioProject;
