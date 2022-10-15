@@ -341,21 +341,22 @@ function isValidDate(closingDate: Date) {
 }
 
 const PortfolioProject: React.FC<ProjectProps> = (props) => {
-  if (!session) {
-    return (
-      <div>
-        <h1>My Projects</h1>
-        <div>You need to be authenticated to view this page.</div>
-      </div>
-    );
-  }
-  return (
-    <div>
-      <div className="flex justify-center container mx-auto ">
-        <MyForm project={props.project} />
-      </div>
-    </div>
-  );
+  return (<></>)
+  // if (!session) {
+  //   return (
+  //     <div>
+  //       <h1>My Projects</h1>
+  //       <div>You need to be authenticated to view this page.</div>
+  //     </div>
+  //   );
+  // }
+  // return (
+  //   <div>
+  //     <div className="flex justify-center container mx-auto ">
+  //       <MyForm project={props.project} />
+  //     </div>
+  //   </div>
+  // );
 };
 
 export default PortfolioProject;
