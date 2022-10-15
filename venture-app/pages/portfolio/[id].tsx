@@ -55,7 +55,7 @@ interface OtherProps {
 async function edit(data: FormValues) {
   try {
     console.log("reaching create" + data);
-    fetch("http://localhost:3000/api/update", {
+    fetch(`${process.env.NEXTAUTH_URL}/api/update`, {
       body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",

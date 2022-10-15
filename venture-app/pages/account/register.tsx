@@ -47,9 +47,6 @@ const RegisterSchema = Yup.object().shape({
         if(data != null){
           const result = zxcvbn(data)
           if (result.guessesLog10 < 8 && result.guesses < 100000000 && result.score < 3 ) {
-            console.log("guesses: "+ result.guesses)
-            console.log("guessesLog10: "+ result.guessesLog10)
-            console.log("score: "+ result.score)
             return createError({
             message: `Password too simple!\nPassword strength: `+result.score +" / 4" ,
             });
@@ -107,14 +104,14 @@ const RegisterPage = ()=> {
       onSubmit={async (data) => {
        
           try {
-            const response = await register(data);
+            const {confirmPassword: _, ...cleanData} = data;
+            const response = await register(cleanData);
             if (response === "Email already exists") emailExists = true;
             else {
               emailExists = false;
               router.push("/account/check-email");
             }
           } catch (err) {
-            console.log(err);
           }
         
         
