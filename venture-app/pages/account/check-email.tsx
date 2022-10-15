@@ -2,7 +2,7 @@ import * as React from 'react'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useRouter } from "next/router";
 
-export default () => {
+const CheckEmail = () => {
     const router = useRouter();
     return (
         <>
@@ -21,3 +21,5 @@ export default () => {
     
     )
 }
+
+export default CheckEmail

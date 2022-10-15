@@ -7,6 +7,7 @@ import LineAxisIcon from '@mui/icons-material/LineAxis';
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import ChatIcon from '@mui/icons-material/Chat';
 import useUser from "../lib/useUser";
+import Link from 'next/link'
 
 const features = [
   {
@@ -45,8 +46,8 @@ const Home:NextPage  = () => {
             
               <h2 className=' font-bold mr-4 sm:text-4xl xl:text-7xl'>Invest in world-changing startups</h2>
               <p className="sm:text-lg xl:text-2xl">Join students funding the next wave of world-changing startups. </p>
-              <button className='sm:w-24 xl:w-48 px-8 py-3'><a className='sm:text-base xl:text-lg text-white no-underline' href='/invest'>Invest Now</a></button>
-              <button className='border-none bg-transparent ml-9'><a className=' text-indigo-700 mr-4 no-underline' href='/raise'>Start your own project <ArrowForwardIcon/></a></button>
+              <button className='sm:w-24 xl:w-48 px-8 py-3'><Link className='sm:text-base xl:text-lg text-white no-underline' href='/invest'>Invest Now</Link></button>
+              <button className='border-none bg-transparent ml-9'><Link className=' text-indigo-700 mr-4 no-underline' href='/raise'>Start your own project </Link><ArrowForwardIcon/></button>
         
           </div>
           <div className='py-4'>

@@ -56,9 +56,9 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       console.log(`💵 Charge id: ${charge.id}`)
     } else if (event.type === 'checkout.session.completed') {
         const fulfill = event.data.object as Stripe.Checkout.Session
-        const projectId: number = +fulfill.metadata.projectId
-        const price: number = +fulfill.amount_subtotal
-        const userEmail = fulfill.metadata.userEmail
+        const projectId: number | null = +fulfill.metadata!.projectId
+        const price: number = +fulfill.amount_subtotal!
+        const userEmail = fulfill.metadata!.userEmail
         console.log(userEmail)
         const projectRaised = await prisma.project.findUnique({
             where: {
@@ -73,7 +73,7 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
                 id: projectId
             },
             data: {
-                raise_amt: price+projectRaised.raise_amt
+                raise_amt: price+projectRaised!.raise_amt
             }
         })
 
@@ -85,7 +85,7 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
             investedProjects: true
           }
         })
-        const newList = [...new Set([...userProjects?.investedProjects, projectId])]
+        const newList = [...new Set([...userProjects?.investedProjects!, projectId])]
         const updateList = await prisma.user.update({
           where: {
             email: userEmail,

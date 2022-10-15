@@ -116,9 +116,9 @@ const Navigationbar = () => {
       <div className="px-2 flex justify-between items-center w-full h-full">
         <div className="flex items-center">
           <h1 className="text-3xl font-bold mr-4 sm:text-4xl">
-            <a className="pl-6 text-black mr-4 no-underline" href="/">
+            <Link className="pl-6 text-black mr-4 no-underline" href="/">
               VENTURE.
-            </a>
+            </Link>
           </h1>
           <ul className="hidden md:flex">
             <li>

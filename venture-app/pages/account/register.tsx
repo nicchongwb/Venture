@@ -30,7 +30,7 @@ const RegisterSchema = Yup.object().shape({
     .test(
       'validate-passwd',
       '',
-      (data, { createError }) => { 
+      (data, { createError }: any) => { 
         // you can get it here
         if (!data) return false;
         
@@ -88,7 +88,7 @@ async function register(account: AccountProps) {
   return await response.json();
 }
 
-export default ()=> {
+const RegisterPage = ()=> {
   const router = useRouter();
   let emailExists = false;
   return (
@@ -221,6 +221,4 @@ export default ()=> {
   );
 };
 
-
-
-
+export default RegisterPage
