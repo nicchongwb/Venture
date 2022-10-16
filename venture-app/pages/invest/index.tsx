@@ -3,11 +3,12 @@ import {GetStaticProps} from 'next'
 import React from 'react';
 import { ProjectProps } from '../../components/Layout/ProjectCard';
 import ProjectCard from '../../components/Layout/ProjectCard';
+import { AsyncLocalStorage } from 'async_hooks';
 
 export const getStaticProps: GetStaticProps = async () => {
     // 👇️ const now: Date
-    const now = new Date();
-    const projects = (await prisma.project.findMany()).filter(project => new Date(project.closingDate) >= now);
+    const now: any = new Date();
+    const projects = (await prisma.project.findMany()).filter((project: any) => new Date(project!.closingDate) >= now);
     return {
         props: { projects },
         revalidate: 10

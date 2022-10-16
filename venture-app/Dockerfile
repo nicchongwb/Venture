@@ -13,7 +13,7 @@ COPY . .
 
 ARG DATABASE_URL
 ENV DATABASE_URL $DATABASE_URL
-
+RUN npx prisma generate
 RUN npm run build
 
 FROM node:16-alpine AS runner
@@ -45,6 +45,7 @@ ENV EMAIL_SECRET $EMAIL_SECRET
 ENV FIREBASE_APIKEY $FIREBASE_APIKEY
 
 RUN npx prisma generate
+
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 

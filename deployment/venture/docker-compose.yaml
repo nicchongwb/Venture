@@ -21,7 +21,7 @@ services:
         aliases:
           - venture
     ports:
-      - 8000:3000
+      - 8000:8000
     environment:
       - VIRTUAL_HOST=${WEB_DOMAIN},www.${WEB_DOMAIN}
       - VIRTUAL_PORT=8000
