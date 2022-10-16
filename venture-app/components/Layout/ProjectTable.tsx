@@ -9,6 +9,7 @@ import { useSession } from 'next-auth/react';
 
 
 
+
 type Props = {
   projects: any
 }
@@ -23,9 +24,14 @@ async function deleteProject(id: string  ) {
               'Content-Type': 'application/json'
           },
           method: 'DELETE'
-      }).then(() => { 
-        router.push("/portfolio");
-        alert("Project Deleted")
+      }).then((res) => { 
+        if(res.status == 500){
+          alert("You do not own this project!")
+        }else if(res.status == 200){
+          router.push("/portfolio");
+          alert("Project Deleted")
+        }
+        
       })
   } catch (error) {
       console.log(error)
@@ -102,7 +108,7 @@ const ProjectTable: React.FC<Props> = ({ projects }) => {
         
                       <td className="text-sm font-medium leading-5 text-center whitespace-no-wrap border-b border-gray-200 ">
                        <div className='text-sky-700'>
-                          <button className="bg-transparent border-transparent"onClick={() => router.push("/portfolio/[id]", `/portfolio/${project.id}`)}>
+                          <button className="bg-transparent border-transparent"onClick={() => router.push("/portfolio/[id]", `/portfolio/${project.project_id}`)}>
                             <EditIcon color="primary" />
                           </button>
                         </div>
@@ -114,7 +120,7 @@ const ProjectTable: React.FC<Props> = ({ projects }) => {
                       <td className="text-sm font-medium leading-5 whitespace-no-wrap border-b border-gray-200 ">
                         
                         <div className='text-amber-700'>
-                        <button className="bg-transparent border-transparent"onClick={() =>deleteProject(project.id.toString())}>
+                        <button className="bg-transparent border-transparent"onClick={() =>deleteProject(project.project_id)}>
                             <DeleteIcon color="error" />
                           </button>
                         </div>

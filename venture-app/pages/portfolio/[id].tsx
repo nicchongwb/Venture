@@ -21,14 +21,20 @@ import useUser from "../../lib/useUser";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const project_id = ctx.query.id;
-  const proj_id_num: number | null = +project_id!;
+  //const proj_id_num: number | null = +project_id!;
+  const myproject = await prisma.project.findFirst({
+    where: {
+      project_id: project_id?.toString(),
+    },
+  });
+
   const project = await prisma.project.findUnique({
     where: {
-      id: proj_id_num,
+      id: myproject?.id,
     },
   });
   return {
-    props: { project, proj_id_num },
+    props: { project, project_id },
   };
 };
 
@@ -61,9 +67,14 @@ async function edit(data: FormValues) {
         "Content-Type": "application/json",
       },
       method: "POST",
-    }).then(() => {
-      router.push("/portfolio");
-      alert("Project Edited");
+    }).then((res) => {
+      if(res.status == 500){
+        alert("You do not own this project!")
+      }else if(res.status == 200){
+        router.push("/portfolio");
+        alert("Project Edited");
+      }
+      
     });
   } catch (error) {
     console.log(error);
@@ -187,8 +198,8 @@ const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
               name="closingDateFill"
               onChange={(date) => setFieldValue("closingDateFill", date)}
             />
-            {touched.closingDateFill && errors.closingDateFill && (
-              <div className="text-orange-700">{errorsString}</div>
+            {touched.closingDate && errors.closingDate && (
+              <div className="text-orange-700">{errors.closingDate}</div>
             )}
           </label>
           <br />
@@ -258,9 +269,9 @@ const MyForm = withFormik<MyFormProps, FormValues>({
       errors.busi_model = "Business Model Description too long!";
     }
     if (!values.closingDateFill) {
-      errors.closingDateFill = "Required!";
+      errors.closingDate = "Required!";
     } else if (!isValidDate(values.closingDateFill)) {
-      errors.closingDateFill = "Closing date cannot be less than today date!";
+      errors.closingDate = "Closing date cannot be less than today date!";
     }
 
     return errors;
@@ -345,7 +356,7 @@ function isValidDate(closingDate: Date) {
 const PortfolioProject: React.FC<MyFormProps> = (props) => {
 
   const { user, mutateUser } = useUser();
-  if (user?.isLoggedIn === true) {
+  if (user?.isLoggedIn === true && user.email == props.project.email) {
     return (
       <div>
       <div className="flex justify-center container mx-auto ">
