@@ -25,7 +25,7 @@ services:
       - PROXY_SSL=on
       - BACKEND=venture
       - PORT=8000
-      - MODSEC_RULE_ENGINE=off # Off if we have to setup jenkins again
+      - MODSEC_RULE_ENGINE=on # Off if we have to setup jenkins again from scratch
 
   dockergen:
     image: nginxproxy/docker-gen
