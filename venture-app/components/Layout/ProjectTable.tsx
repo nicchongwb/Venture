@@ -14,11 +14,11 @@ type Props = {
 }
  
 
-async function deleteProject(id: string  ) {
+async function deleteProject(id: number  ) {
 
   try {
       //console.log("reaching delete"+ id)
-      fetch(`${process.env.NEXTAUTH_URL}/api/project/${id}`,{
+      fetch(`/api/project/${id}`,{
           headers:{
               'Content-Type': 'application/json'
           },
@@ -114,7 +114,7 @@ const ProjectTable: React.FC<Props> = ({ projects }) => {
                       <td className="text-sm font-medium leading-5 whitespace-no-wrap border-b border-gray-200 ">
                         
                         <div className='text-amber-700'>
-                        <button className="bg-transparent border-transparent"onClick={() =>deleteProject(project.id.toString())}>
+                        <button className="bg-transparent border-transparent"onClick={() =>deleteProject(project.id)}>
                             <DeleteIcon color="error" />
                           </button>
                         </div>
