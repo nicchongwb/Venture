@@ -4,12 +4,12 @@ services:
   stripe-cli:
     image: stripe/stripe-cli
     container_name: stripe-webhook
-    command: "listen --api-key ${STRIPE_SECRET_KEY} --forward-to http://host.docker.internal:8000/api/webhooks"
+    command: "listen --api-key ${STRIPE_SECRET_KEY} --forward-to ${WEB_DOMAIN}/api/webhooks"
   
     networks:
-        webapp_nw:
-          aliases:
-            - stripe-listener
+      webapp_nw:
+        aliases:
+          - stripe-listener
   
 networks:
   jenkins_nw:

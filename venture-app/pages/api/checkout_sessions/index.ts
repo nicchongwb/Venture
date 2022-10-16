@@ -4,6 +4,7 @@ import { CURRENCY, MIN_AMOUNT, MAX_AMOUNT } from '../../../config'
 import { formatAmountForStripe } from '../../../utils/stripe-helpers'
 
 import Stripe from 'stripe'
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
     apiVersion: '2022-08-01',
 })
@@ -37,7 +38,8 @@ export default async function handler(
         }],
         metadata: {projectId : projId, userEmail: userEmail},
         mode: 'payment',
-        success_url: `${req.headers.origin}/result?session_id={CHECKOUT_SESSION_ID}`,
+        //success_url: `${req.headers.origin}/result?session_id={CHECKOUT_SESSION_ID}`,
+        success_url: `${req.headers.origin}/result`,
         cancel_url: `${req.headers.origin}/`,
       }
       const checkoutSession: Stripe.Checkout.Session =
