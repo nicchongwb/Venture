@@ -169,8 +169,8 @@ const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
               name="closingDateFill"
               onChange={(date) => setFieldValue("closingDateFill", date)}
             />
-            {touched.closingDateFill && errors.closingDateFill && (
-              <div className="text-orange-700">{errorsString}</div>
+            {touched.closingDate && errors.closingDate && (
+              <div className="text-orange-700">{errors.closingDate}</div>
             )}
           </label>
           <br />
@@ -239,9 +239,9 @@ const MyForm = withFormik<MyFormProps, FormValues>({
       errors.busi_model = "Business Model Description too long!";
     }
     if (!values.closingDateFill) {
-      errors.closingDateFill = "Required!";
+      errors.closingDate = "Required!";
     } else if (!isValidDate(values.closingDateFill)) {
-      errors.closingDateFill = "Closing date cannot be less than today date!";
+      errors.closingDate = "Closing date cannot be less than today date!";
     }
 
     return errors;
