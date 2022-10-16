@@ -82,7 +82,7 @@ const Home:NextPage  = () => {
           </p>
           <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
           Together, we’re on a mission to raise global economic prosperity through the frictionless exchange of financial value.
-          </p>
+          </p>|
         </div>
 
         <div className="mt-10">

@@ -11,12 +11,14 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-RUN npx prisma generate
+ARG DATABASE_URL
+ENV DATABASE_URL $DATABASE_URL
+
 RUN npm run build
 
 FROM node:16-alpine AS runner
 ARG NEXTAUTH_URL
-ARG DATABASE_URL
+
 ARG JWT_SECRET
 ARG NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 ARG STRIPE_SECRET_KEY
@@ -31,8 +33,6 @@ WORKDIR /app
 
 ENV NEXT_TELEMETRY_DISABLED 1
 
-ENV DATABASE_URL $DATABASE_URL
-
 ENV NEXTAUTH_URL $NEXTAUTH_URL
 ENV JWT_SECRET $JWT_SECRET
 ENV NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY $NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
@@ -44,6 +44,7 @@ ENV EMAIL_NAME $EMAIL_NAME
 ENV EMAIL_SECRET $EMAIL_SECRET
 ENV FIREBASE_APIKEY $FIREBASE_APIKEY
 
+RUN npx prisma generate
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
@@ -55,8 +56,8 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
 
-EXPOSE 3000
+EXPOSE 8000
 
-ENV PORT 3000
+ENV PORT 8000
 
 CMD ["node", "server.js"]
