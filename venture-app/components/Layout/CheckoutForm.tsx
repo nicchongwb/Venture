@@ -37,7 +37,7 @@ const CheckoutForm = (props: any) => {
     }
 
     // Redirect to Checkout.
-    const stripe = await getStripe()
+    const stripe = await getStripe();
     const { error } = await stripe!.redirectToCheckout({
       // Make the id field from the Checkout Session creation API response
       // available to this file, so you can provide it as parameter here
@@ -50,7 +50,7 @@ const CheckoutForm = (props: any) => {
     console.warn(error.message)
     setLoading(false)
   }
-
+  
   return (
     <form onSubmit={handleSubmit}>
       <CustomDonationInput
