@@ -8,7 +8,7 @@ export default withIronSessionApiRoute(deleteRoute, sessionOptions);
 
  async function deleteRoute(req: NextApiRequest, res: NextApiResponse) {
     const projectId = req.query.id
-    console.log("HERE" +projectId)
+    //console.log("HERE" +projectId)
     const user = req.session.user
 
   

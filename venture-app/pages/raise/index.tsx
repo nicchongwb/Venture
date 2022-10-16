@@ -38,11 +38,7 @@ interface OtherProps {
 async function create(data: FormValues) {
   try {
     console.log("reaching create" + data);
-<<<<<<< HEAD
-    fetch("/api/create", {
-=======
     fetch(`/api/create`, {
->>>>>>> main
       body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",
