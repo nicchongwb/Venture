@@ -29,6 +29,7 @@ venture-app/.pnpm-debug.log*
 venture-app/.env*.local
 venture-app/.env
 deployment/venture/dockerenv
+deployment/stripe/dockerenv
 
 # vercel
 venture-app/.vercel
