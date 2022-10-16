@@ -41,7 +41,7 @@ const Project: React.FC<ProjectProps> = (props: any) => {
               </div>
               <div >
             <div>
-            <Image className="pb-10"  width="100%" height="100%" src={props.project.image} alt="GFG logo imported from public directory"  />
+            <Image className="pb-10" height={1500} width={1500} src={props.project.image} alt="GFG logo imported from public directory"  />
               <br/>  
               {user?.isLoggedIn  === true && <CheckoutForm id={props.proj_id_num} userEmail={user.email}/>}
              </div>
