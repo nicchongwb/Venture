@@ -22,3 +22,13 @@ docker build . # build Dockerfile
 docker-compose --env-file dockerenv up -d # -d optional for detached mode
 curl -H "Host: letsventure.ml" letsventure.ml # To test app
 ```
+
+# Stripe Listener
+cd deployment
+cd stripe
+docker compose --env-file dockerenv up
+
+# Vennture-app seployment
+cd deployment
+cd venture
+docker compose --env-file dockerenv up --build -d
