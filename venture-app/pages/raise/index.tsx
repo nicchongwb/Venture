@@ -38,7 +38,7 @@ interface OtherProps {
 async function create(data: FormValues) {
   try {
     console.log("reaching create" + data);
-    fetch(`${process.env.NEXTAUTH_URL}/api/create`, {
+    fetch(`/api/create`, {
       body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",
