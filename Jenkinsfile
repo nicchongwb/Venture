@@ -1,6 +1,5 @@
 pipeline {
   agent none
-  }
   environment {
     // SEMGREP_BASELINE_REF = ""
 
