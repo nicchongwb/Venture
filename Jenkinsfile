@@ -14,6 +14,7 @@ pipeline {
         docker { 
           image 'python:3' 
           args '--user 0:0' // use container as root
+        }
       }
       steps {
         sh 'pip3 install semgrep'
@@ -31,6 +32,5 @@ pipeline {
     //   steps {
     //     checkout scm
     // }
-    }
   }
 }
