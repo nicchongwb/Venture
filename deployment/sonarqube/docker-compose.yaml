@@ -17,8 +17,8 @@ services:
       - sonarqube_data:/opt/sonarqube/data
       - sonarqube_extensions:/opt/sonarqube/extensions
       - sonarqube_logs:/opt/sonarqube/logs
-    ports:
-      -  "9000:9000"
+    export:
+      - "9000"
     networks:
       jenkins_nw:
         aliases: 
@@ -26,6 +26,7 @@ services:
 
   sonarqube_db:
     image: postgres:12
+    container_name: sonarqube_db
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
