@@ -30,6 +30,7 @@ venture-app/.env*.local
 venture-app/.env
 deployment/venture/dockerenv
 deployment/stripe/dockerenv
+deployment/sonarqube/dockerenv
 
 # vercel
 venture-app/.vercel
