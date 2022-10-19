@@ -20,7 +20,9 @@ services:
     ports:
       -  "9000:9000"
     networks:
-      - jenkins_nw
+      jenkins_nw:
+        aliases: 
+          - sonarqube
 
   sonarqube_db:
     image: postgres:12
@@ -30,7 +32,10 @@ services:
     volumes:
       - postgresql:/var/lib/postgresql
       - postgresql_data:/var/lib/postgresql/data
-
+    networks:
+      jenkins_nw:
+        aliases: 
+          - sonarqube_db
 
 networks:
   jenkins_nw:
