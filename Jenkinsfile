@@ -1,10 +1,5 @@
 pipeline {
-  agent {
-    docker { 
-      image 'python:3' 
-      args '--user 0:0' // use container as root
-    }
-  }
+  agent none
   environment {
     // SEMGREP_BASELINE_REF = ""
 
@@ -15,6 +10,12 @@ pipeline {
   }
   stages {
     stage('Semgrep-Scan') {
+      agent {
+        docker { 
+          image 'python:3' 
+          args '--user 0:0' // use container as root
+        }
+      }
       steps {
         sh 'pip3 install semgrep'
         sh 'semgrep ci'
