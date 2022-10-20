@@ -25,7 +25,6 @@ pipeline {
 		    }
 	    }
 		}
-
     stage('Semgrep-Scan') {
       agent {
         docker { 
