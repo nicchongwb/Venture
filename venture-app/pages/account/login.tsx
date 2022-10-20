@@ -24,6 +24,8 @@ async function login(
   mutateUser: KeyedMutator<User>,
   setErrorMsg: React.Dispatch<React.SetStateAction<string>>
 ) {
+  // const mfa: number | null = +data.mfa!;
+  // const newData = {...data, mfa: mfa}
 
   try {
     mutateUser(

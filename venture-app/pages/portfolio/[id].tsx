@@ -311,7 +311,7 @@ const MyForm = withFormik<MyFormProps, FormValues>({
           });
         });
       } catch (error) {
-        console.log("FIle Uploading ERROR:" + error);
+        console.log("File Uploading ERROR:" + error);
       }
     } else {
       // submit even when file is not uploaded
