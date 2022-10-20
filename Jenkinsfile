@@ -1,11 +1,12 @@
 pipeline {
   agent any
+  tools {nodejs "node"}
   environment {
     // SEMGREP_BASELINE_REF = ""
 
     SEMGREP_APP_TOKEN = credentials('SEMGREP_APP_TOKEN')
     SEMGREP_PR_ID = "${env.CHANGE_ID}"
-
+    CHROME_BIN = '/bin/google-chrome'
     //  SEMGREP_TIMEOUT = "300"
   }
   stages {
@@ -42,6 +43,22 @@ pipeline {
         cleanup {
           cleanWs() // Clean up any failed builds
         }
+      }
+    }
+
+    stage('Dependencies') {
+      steps {
+        sh 'npm i'
+      }
+    }
+    stage('Build') {
+      steps {
+        sh 'npm run build'
+      }
+    }
+    stage('Unit Tests') {
+      steps {
+        sh 'npm run cypress'
       }
     }
   }
