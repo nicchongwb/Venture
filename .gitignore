@@ -43,3 +43,6 @@ venture-app/next-env.d.ts
 # firebase 
 Venture/venture-app/lib/firebase/firebase.ts
 Venture/venture-app/lib/firebase/*
+
+# semgrep
+.semgrepignore
