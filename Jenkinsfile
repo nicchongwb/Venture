@@ -45,20 +45,10 @@ pipeline {
       }
     }
 
-    stage('Dependencies') {
+    stage('Cypress E2E testing') {
       steps {
-        sh 'npm i'
+        sh 'npm run ci:e2e'
       }
-    }
-    stage('Build') {
-      steps {
-        sh 'npm run build'
-      }
-    }
-    stage('Unit Tests') {
-      steps {
-        sh 'npm run cypress'
-      }
-    }
+
   }
 }
