@@ -49,6 +49,6 @@ pipeline {
       steps {
         sh 'npm run ci:e2e'
       }
-
+    }
   }
 }
