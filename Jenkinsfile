@@ -47,8 +47,7 @@ pipeline {
 
     stage('Cypress E2E testing') {
       steps {
-        sh 'cd venture-app'
-        sh 'npm run ci:e2e'
+        sh 'cd venture-appl npm run ci:e2e'
       }
     }
   }
