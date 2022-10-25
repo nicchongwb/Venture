@@ -7,9 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "cypress": "cypress open",
-    "cy:run": "node_modules/.bin/cypress run",
-    "ci:e2e": "start-server-and-test start http://localhost:8000 cy:run"
+    "tsc:check": "tsc --noEmit",
+    "test:e2e": "cypress run --headed --config-file \"./cypress/config/cypress-base.json\""
   },
   "dependencies": {
     "@emotion/react": "^11.10.4",
@@ -63,7 +62,7 @@
     "@types/sanitize-html": "^2.6.2",
     "@types/uuid": "^8.3.4",
     "autoprefixer": "^10.4.11",
-    "cypress": "^10.10.0",
+    "cypress": "^9.7.0",
     "eslint": "8.23.0",
     "eslint-config-next": "12.2.5",
     "postcss": "^8.4.16",
