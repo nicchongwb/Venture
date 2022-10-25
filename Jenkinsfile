@@ -44,6 +44,7 @@ pipeline {
         }
       }
     }
+    
     stage('Cypress E2E testing') {
       steps {
         sh 'cd venture-app; npm i; npm run test:e2e'
