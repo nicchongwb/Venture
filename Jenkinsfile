@@ -44,5 +44,10 @@ pipeline {
         }
       }
     }
+    stage('Cypress E2E testing') {
+      steps {
+        sh 'npm run test:e2e'
+      }
+    }
   }
 }
