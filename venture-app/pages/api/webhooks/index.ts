@@ -2,6 +2,7 @@ import { buffer } from 'micro'
 import Cors from 'micro-cors'
 import { NextApiRequest, NextApiResponse } from 'next'
 import {prisma} from '../../../lib/prisma'
+import logger from "../../../Logger"
 
 import Stripe from 'stripe'
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -96,7 +97,9 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         })
 
     } else {
+      logger.warn(`Unhandled event type: ${event.type}`)
       console.warn(`🤷‍♀️ Unhandled event type: ${event.type}`)
+
     }
 
     // Return a response to acknowledge receipt of the event.
