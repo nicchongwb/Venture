@@ -1,11 +1,12 @@
 pipeline {
   agent any
+  tools {nodejs "node"}
   environment {
     // SEMGREP_BASELINE_REF = ""
 
     SEMGREP_APP_TOKEN = credentials('SEMGREP_APP_TOKEN')
     SEMGREP_PR_ID = "${env.CHANGE_ID}"
-
+    CHROME_BIN = '/bin/google-chrome'
     //  SEMGREP_TIMEOUT = "300"
   }
   stages {
@@ -24,7 +25,6 @@ pipeline {
 		    }
 	    }
 		}
-
     stage('Semgrep-Scan') {
       agent {
         docker { 
@@ -42,6 +42,17 @@ pipeline {
         cleanup {
           cleanWs() // Clean up any failed builds
         }
+      }
+    }
+
+    stage('Cypress E2E testing') {
+      agent {
+        docker {
+          image 'cypress/base:16'
+        }
+      }
+      steps {
+        sh 'cd venture-app; npm run test:e2e'
       }
     }
   }

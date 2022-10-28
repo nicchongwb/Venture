@@ -46,3 +46,6 @@ Venture/venture-app/lib/firebase/*
 
 # semgrep
 .semgrepignore
+
+# e2e test
+venture-app/cypress/videos
