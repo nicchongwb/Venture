@@ -13,7 +13,6 @@ pipeline {
     stage('Checkout SCM') {
       steps {
         checkout scm
-        def ventureImage = docker.build("venture-image", "-f ./venture-app/Dockerfile --env-file /env/dockerenv")
       }
     }
     // stage('OWASP DependencyCheck') {
