@@ -52,7 +52,7 @@ pipeline {
         }
       }
       steps {
-        sh 'cd venture-app; npm i; npm run test:e2e'
+        sh 'cd venture-app; npm run test:e2e'
       }
     
     }
