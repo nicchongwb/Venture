@@ -47,11 +47,11 @@ pipeline {
     }
 
     stage('Cypress E2E testing') {
-      // agent {
-      //   docker {
-      //     image 'cypress/base:16'
-      //   }
-      // }
+      agent {
+        docker {
+          image 'cypress/base:16'
+        }
+      }
       steps {
         sh 'cd venture-app; npm run cypress:test'
       }
