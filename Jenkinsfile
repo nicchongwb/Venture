@@ -52,6 +52,8 @@ pipeline {
         }
       }
       steps {
+        sh 'pwd'
+        sh 'ls -la /home/'
         sh 'cp /home/.env ./venture-app/'
         sh 'cd venture-app; npm ci; npx prisma generate; npm run build; npm run start; npm run test:e2e'
       }
