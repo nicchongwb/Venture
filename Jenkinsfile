@@ -52,7 +52,7 @@ pipeline {
         }
       }
       steps {
-        
+        sh 'id'
       }
     }
     stage('Cypress E2E testing') {
