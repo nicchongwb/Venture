@@ -6,9 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
     "tsc:check": "tsc --noEmit",
-    "test:e2e": "cypress run --headed --config-file \"./cypress/config/cypress-base.json\""
+    "test:e2e": "cypress run --headed --config-file \"./cypress/config/cypress-base.json\"",
+    "cypress:test": "next lint"
   },
   "dependencies": {
     "@emotion/react": "^11.10.4",
