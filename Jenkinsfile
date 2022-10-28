@@ -52,7 +52,7 @@ pipeline {
         }
       }
       steps {
-        sh 'cd venture-app; npm ci; npm run test:e2e'
+        sh 'cd venture-app; npm install @prisma/client; npx prisma generate; npm ci; npm run test:e2e'
       }
     
     }
