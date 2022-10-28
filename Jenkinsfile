@@ -15,50 +15,45 @@ pipeline {
         checkout scm
       }
     }
-    // stage('OWASP DependencyCheck') {
-		// 	steps {
-		// 		dependencyCheck additionalArguments: '--format HTML --format XML', odcInstallation: 'OWASP-DC'
-		// 	}
-    //   post {
-		//     success {
-		// 	    dependencyCheckPublisher pattern: 'dependency-check-report.xml'
-		//     }
-	  //   }
-		// }
-    // stage('Semgrep-Scan') {
-    //   agent {
-    //     docker { 
-    //       image 'python:3' 
-    //       args '--user 0:0' // use container as root
-    //       args '-v $HOME/.m2:/root/.m2' // For caching
-    //     }
-    //   }
-    //   steps {
-    //     sh 'pip3 install semgrep'
-    //     sh 'semgrep ci'
-    //   }
-
-    //   post {
-    //     cleanup {
-    //       cleanWs() // Clean up any failed builds
-    //     }
-    //   }
-    // }
-    stage('Venture Build') {
+    stage('OWASP DependencyCheck') {
+			steps {
+				dependencyCheck additionalArguments: '--format HTML --format XML', odcInstallation: 'OWASP-DC'
+			}
+      post {
+		    success {
+			    dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+		    }
+	    }
+		}
+    stage('Semgrep-Scan') {
+      agent {
+        docker { 
+          image 'python:3' 
+          args '--user 0:0' // use container as root
+          args '-v $HOME/.m2:/root/.m2' // For caching
+        }
+      }
       steps {
-        sh 'docker images'
+        sh 'pip3 install semgrep'
+        sh 'semgrep ci'
+      }
+
+      post {
+        cleanup {
+          cleanWs() // Clean up any failed builds
+        }
       }
     }
-    // stage('Cypress E2E testing') {
-    //   agent {
-    //     docker {
-    //       image 'cypress/base:16'
-    //     }
-    //   }
-    //   steps {
-    //     // sh 'cd venture-app; npm ci; npm run npx prisma generate; npm run build; npm run start; npm run test:e2e'
-    //     sh 'cd venture-app; npm run test:e2e'
-    //   }
-    // }
+
+    stage('Cypress E2E testing') {
+      agent {
+        docker {
+          image 'cypress/base:16'
+        }
+      }
+      steps {
+        sh 'cd venture-app; npm run test:e2e'
+      }
+    }
   }
 }
