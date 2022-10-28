@@ -43,7 +43,7 @@ pipeline {
     //       cleanWs() // Clean up any failed builds
     //     }
     //   }
-    // }/
+    // }
     
     stage('Cypress E2E testing') {
       agent {
