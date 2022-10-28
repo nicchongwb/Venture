@@ -49,7 +49,7 @@ pipeline {
       agent {
         docker {
           image 'cypress/base:16'
-          // args '-v /env/.env:${PWD}/venture-app/.env'
+          args '-v /env/.env:${PWD}/venture-app/.env'
         }
       }
       steps {
