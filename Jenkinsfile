@@ -45,11 +45,14 @@ pipeline {
     //     }
     //   }
     // }
-    stage('Venture Build'){
+    stage('Venture Build') {
       agent {
         docker {
           image 'venture-image'
         }
+      }
+      steps {
+        
       }
     }
     stage('Cypress E2E testing') {
