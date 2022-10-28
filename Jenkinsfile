@@ -52,7 +52,7 @@ pipeline {
         }
       }
       steps {
-        sh 'cd venture-app; npm run cypress:test'
+        sh 'cd venture-app; bpm ci; npm run cypress:test'
       }
     }
   }
