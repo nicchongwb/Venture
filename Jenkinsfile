@@ -13,6 +13,7 @@ pipeline {
     stage('Checkout SCM') {
       steps {
         checkout scm
+        def ventureImage = docker.build("venture-image", "-f ./venture-app/Dockerfile --env-file /env/dockerenv")
       }
     }
     // stage('OWASP DependencyCheck') {
@@ -44,7 +45,13 @@ pipeline {
     //     }
     //   }
     // }
-    
+    stage('Venture Build'){
+      agent {
+        docker {
+          image 'venture-image'
+        }
+      }
+    }
     stage('Cypress E2E testing') {
       agent {
         docker {
@@ -52,7 +59,8 @@ pipeline {
         }
       }
       steps {
-        sh 'cd venture-app; npm ci; npx prisma generate; npm run build; npm run start; npm run test:e2e'
+        // sh 'cd venture-app; npm ci; npm run npx prisma generate; npm run build; npm run start; npm run test:e2e'
+        sh 'cd venture-app; npm run test:e2e'
       }
     
     }
