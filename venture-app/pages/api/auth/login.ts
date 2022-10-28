@@ -5,11 +5,13 @@ import { withIronSessionApiRoute } from 'iron-session/next'
 import { sessionOptions } from '../../../lib/session'
 import { verifyTOTP } from '../../../lib/totp';
 import argon2 from "argon2";
+import logger from "../../../Logger";
 
 export default withIronSessionApiRoute(loginRoute, sessionOptions)
 
 async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== 'POST') {
+        logger.notice('Non POST Request made to login API')
         return res.status(405).json({message: 'Method not allowed'})
     }
     const accountData = req.body;
@@ -29,10 +31,12 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
             const user = { isLoggedIn: true, email: accountData.email } as User      
             req.session.user = user
             await req.session.save()
+            logger.info('User with email: ' + accountData.email + ' login successfully')
             return res.json(user);
         }
 
     }
-
+    logger.notice('User with email: ' + accountData.email + ' login failed')
     return res.status(500).send({login: false})
+    
 }
