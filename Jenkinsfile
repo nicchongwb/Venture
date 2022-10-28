@@ -14,7 +14,7 @@ pipeline {
       steps {
         checkout scm
       }
-    // }
+    }
     // stage('OWASP DependencyCheck') {
 		// 	steps {
 		// 		dependencyCheck additionalArguments: '--format HTML --format XML', odcInstallation: 'OWASP-DC'
@@ -54,7 +54,7 @@ pipeline {
       steps {
         sh 'cd venture-app; npm i; npm run test:e2e'
       }
+    
     }
-  
   }
 }
