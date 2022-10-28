@@ -18,7 +18,7 @@ pipeline {
     stage('OWASP DependencyCheck') {
 			steps {
         sh 'cd venture-app; npm i'
-				dependencyCheck additionalArguments: '--format HTML --format XML', odcInstallation: 'OWASP-DC'
+				dependencyCheck additionalArguments: '--format HTML --format XML --disableYarnAudit', odcInstallation: 'OWASP-DC'
 			}
       post {
 		    success {
