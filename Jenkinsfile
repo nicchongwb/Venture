@@ -46,26 +46,20 @@ pipeline {
     //   }
     // }
     stage('Venture Build') {
-      agent {
-        docker {
-          image 'venture-image'
-        }
-      }
       steps {
-        sh 'id'
+        sh 'docker images'
       }
     }
-    stage('Cypress E2E testing') {
-      agent {
-        docker {
-          image 'cypress/base:16'
-        }
-      }
-      steps {
-        // sh 'cd venture-app; npm ci; npm run npx prisma generate; npm run build; npm run start; npm run test:e2e'
-        sh 'cd venture-app; npm run test:e2e'
-      }
-    
-    }
+    // stage('Cypress E2E testing') {
+    //   agent {
+    //     docker {
+    //       image 'cypress/base:16'
+    //     }
+    //   }
+    //   steps {
+    //     // sh 'cd venture-app; npm ci; npm run npx prisma generate; npm run build; npm run start; npm run test:e2e'
+    //     sh 'cd venture-app; npm run test:e2e'
+    //   }
+    // }
   }
 }
