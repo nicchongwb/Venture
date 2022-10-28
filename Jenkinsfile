@@ -45,7 +45,6 @@ pipeline {
     //   }
     // }
     
-    
     stage('Cypress E2E testing') {
       agent {
         docker {
