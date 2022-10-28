@@ -48,11 +48,11 @@ pipeline {
     stage('Cypress E2E testing') {
       agent {
         docker {
-          image 'cypress/base:10'
+          image 'cypress/base:16'
         }
       }
       steps {
-        sh 'cd venture-app; npm install @prisma/client; npx prisma generate; npm ci; npm run test:e2e'
+        sh 'cd venture-app; npm ci; npm run test:e2e'
       }
     
     }
