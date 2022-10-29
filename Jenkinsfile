@@ -61,7 +61,7 @@ pipeline {
 
     stage('Linting check') {
       steps {
-        sh 'npm run lint'
+        sh 'cd venture-app; npm run lint'
       }
     }
 
