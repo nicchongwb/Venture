@@ -7,7 +7,7 @@ pipeline {
     SEMGREP_APP_TOKEN = credentials('SEMGREP_APP_TOKEN')
     SEMGREP_PR_ID = "${env.CHANGE_ID}"
     CHROME_BIN = '/bin/google-chrome'
-    DATABASE_URL = credentials('DATABASE_URL')
+    DATABASE_URL = credentials('22d228cf-a4af-4e9b-be9b-909a6e347141')
     //  SEMGREP_TIMEOUT = "300"
   }
   stages {
