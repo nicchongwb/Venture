@@ -10,7 +10,7 @@ export function validate(schema: OptionalObjectSchema<ObjectShape>, handler: Nex
                 req.body = await schema.validate(req.body, { strict: true });
                 // console.log(req.body);
             } catch(error) {
-                console.log("error: ")
+                console.log("error: " + error)
                 return res.status(400).json({});
             }
         }
