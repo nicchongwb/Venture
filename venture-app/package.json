@@ -8,7 +8,7 @@
     "start": "next start",
     "tsc:check": "tsc --noEmit",
     "test:e2e": "cypress run --config-file \"./cypress/config/cypress-base.json\"",
-    "cypress:test": "next lint",
+    "lint": "next lint",
     "e2e:test": "start-server-and-test start http://localhost:3000 test:e2e"
   },
   "dependencies": {
