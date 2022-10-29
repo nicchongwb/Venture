@@ -40,6 +40,7 @@ pipeline {
         sh 'semgrep ci'
       }
 
+
       post {
         cleanup {
           cleanWs() // Clean up any failed builds
