@@ -9,7 +9,7 @@ export function validate(schema: OptionalObjectSchema<ObjectShape>, handler: Nex
             // console.log(req.body)
             try {
                 req.body = await schema.validate(req.body, { strict: true });
-                console.log('HI');
+                console.log(req.body);
             } catch(error) {
                 console.log("error: ")
                 return res.status(400).json(error);
