@@ -41,4 +41,3 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
 }
 
 export default validate(loginSchema, handler)
-// export default withIronSessionApiRoute(handler, sessionOptions)
