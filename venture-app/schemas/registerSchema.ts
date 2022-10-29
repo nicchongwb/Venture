@@ -11,7 +11,7 @@ export const registerSchema = object({
         (lastName) => lastName.replace(/\b\s+\b/, ' ')
         ),
     email: string().required().email(),
-    password: string().required().min(8).max(25).matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\w\W]+$/).test(
+    password: string().required().min(8).max(25).matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\!\@\#\%\^\&\*])[a-zA-Z\d\w\!\@\#\%\^\&\*]+$/).test(
         'validate-passwd',
         '',
         (data, { createError }: any) => { 

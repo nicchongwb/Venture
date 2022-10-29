@@ -27,7 +27,7 @@ const RegisterSchema = Yup.object().shape({
   password: Yup.string()
     .min(8, "Minimum eight characters!")
     .max(25, "Too complex!")
-    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\w\W]+$/, "At least one uppercase letter, one lowercase letter and one number!")
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\!\@\#\%\^\&\*])[a-zA-Z\d\w\!\@\#\%\^\&\*]+$/, "At least one uppercase, lowercase, number, and special character only from !@#%^&*")
     .required("Required")
     .test(
       'validate-passwd',
