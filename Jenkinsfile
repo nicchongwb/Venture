@@ -7,6 +7,7 @@ pipeline {
     SEMGREP_APP_TOKEN = credentials('SEMGREP_APP_TOKEN')
     SEMGREP_PR_ID = "${env.CHANGE_ID}"
     CHROME_BIN = '/bin/google-chrome'
+    DATABASE_URL = credentials('DATABASE_URL')
     //  SEMGREP_TIMEOUT = "300"
   }
   stages {
@@ -53,6 +54,7 @@ pipeline {
         }
       }
       steps {
+        echo '${DATABASE_URL}'
         sh 'cd venture-app; npm ci; npm run build; npm run e2e:test'
       }
     }
