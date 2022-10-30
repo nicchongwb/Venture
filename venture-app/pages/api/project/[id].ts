@@ -2,7 +2,7 @@ import { prisma } from '../../../lib/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { withIronSessionApiRoute } from 'iron-session/next'
 import { sessionOptions } from '../../../lib/session'
-
+import logger from "../../../Logger";
 
 export default withIronSessionApiRoute(deleteRoute, sessionOptions);
 
@@ -26,12 +26,15 @@ export default withIronSessionApiRoute(deleteRoute, sessionOptions);
                     id: Number(myProject?.id),
                 }
             })
+            logger.info('Project deleted successfully by: ' + user?.email)
             res.status(200).json(project)
         }else{
+            logger.warn('User: ' +user?.email+' not authenticated to delete project')
             res.status(500).json({ error: 'user not authenticated to delete' })
         }
         
     }else{
+        logger.error('Project could not be deleted by: ' + user?.email)
         console.log("Failure: Note could not be deleted!");
     }
 }

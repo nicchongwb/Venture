@@ -1,6 +1,7 @@
 import { prisma } from '../../lib/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
+import logger from "../../Logger";
 import { validate } from '../../middleware/createValidate';
 import { createSchema } from '../../schemas/createSchema';
 
@@ -25,8 +26,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 email, 
             }
         })
+        logger.info('Project created successfully by :' + req.body.email) 
         res.status(200).json({message: "Project Created"})
     } catch(error){
+        logger.error('Project creation failed by :' + req.body.email) 
         console.log("Failure: "+ error);
     }
 }

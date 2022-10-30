@@ -2,6 +2,7 @@ import { prisma } from '../../lib/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { withIronSessionApiRoute } from 'iron-session/next'
 import { sessionOptions } from '../../lib/session'
+import logger from "../../Logger";
 import { validate } from '../../middleware/updateValidate';
 import { updateSchema } from '../../schemas/updateSchema';
 
@@ -33,12 +34,15 @@ async function updateProject(req: NextApiRequest, res: NextApiResponse) {
                     email, 
                 }
             })
+            logger.info('Project updated successfully by :' + user?.email)
             res.status(200).json({message: "Project Edited"})
         }else{
+            logger.warn('Project update failed by :' + user?.email)
             res.status(500).json({ error: 'user not authenticated to edit' })
         }
         
     } catch(error){
+        logger.error('Project update failed by :' + user?.email)
         console.log("Failure: "+ error);
     }
 }

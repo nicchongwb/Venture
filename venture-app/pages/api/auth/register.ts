@@ -6,6 +6,7 @@ import crypto from "crypto";
 import util from "util";
 import nodemailer from "nodemailer";
 import argon2 from "argon2";
+import logger from "../../../Logger";
 import { registerSchema } from "../../../schemas/registerSchema";
 import { validate } from "../../../middleware/registerValidate";
 
@@ -18,6 +19,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (req.method !== "POST") {
+    logger.notice('Non POST Request made to register API')
     return res.status(405).json({ message: "Method not allowed" });
   }
 
@@ -67,8 +69,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-          console.log("Registeration unsuccessful");
-          console.log("Registeration unsuccessful" + error);
+          console.log("Registration unsuccessful");
+          console.log("Registration unsuccessful" + error);
+          logger.error("Registration unsuccessful with email account: " + accountData.email);
         }
       });
     });
@@ -76,6 +79,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     res.json(200);
   } catch (e) {
     error = "Email already exists";
+    logger.error("Registration perform on existing email: " + accountData.email);
     res.json(error);
   }
 }; 
