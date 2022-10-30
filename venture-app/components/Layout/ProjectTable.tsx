@@ -42,6 +42,7 @@ async function deleteProject(id: string  ) {
 
 
 const ProjectTable: React.FC<Props> = ({ projects }) => {
+  const sanitizeHtml = require("sanitize-html");
   
    return (
         <div className="container max-w-7xl mx-auto mt-8">
