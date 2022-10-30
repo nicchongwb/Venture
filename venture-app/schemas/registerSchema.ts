@@ -5,10 +5,10 @@ import zxcvbnEnPackage from '@zxcvbn-ts/language-en'
 
 export const registerSchema = object({
     firstName: string().min(3).max(20).required().matches(/^(?=.*[a-zA-Z])(?=.*\s)?[a-zA-Z\s]+$/).transform(
-        (firstName) => firstName.replace(/\b\s+\b/, ' ')
+        (firstName) => firstName.replace(/\b\s+\b/gm, ' ')
         ),
     lastName: string().min(3).max(20).required().matches(/^(?=.*[a-zA-Z])(?=.*\s)?[a-zA-Z\s]+$/).transform(
-        (lastName) => lastName.replace(/\b\s+\b/, ' ')
+        (lastName) => lastName.replace(/\b\s+\b/gm, ' ')
         ),
     email: string().required().email(),
     password: string().required().min(8).max(25).matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\!\@\#\%\^\&\*])[a-zA-Z\d\w\!\@\#\%\^\&\*]+$/).test(
