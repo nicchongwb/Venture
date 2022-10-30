@@ -2,10 +2,12 @@ import { prisma } from '../../lib/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { withIronSessionApiRoute } from 'iron-session/next'
 import { sessionOptions } from '../../lib/session'
+import { validate } from '../../middleware/updateValidate';
+import { updateSchema } from '../../schemas/updateSchema';
 
 
-export default withIronSessionApiRoute(updateProject, sessionOptions);
-
+// export default withIronSessionApiRoute(updateProject, sessionOptions);
+const handler = withIronSessionApiRoute(updateProject, sessionOptions)
 
 async function updateProject(req: NextApiRequest, res: NextApiResponse) {
     const{id,title,description, highlights,
@@ -41,3 +43,4 @@ async function updateProject(req: NextApiRequest, res: NextApiResponse) {
     }
 }
 
+export default validate(updateSchema, handler)
