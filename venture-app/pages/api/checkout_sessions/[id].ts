@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
+import logger from "../../../Logger"
 
 import Stripe from 'stripe'
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -23,6 +24,7 @@ export default async function handler(
   } catch (err) {
     const errorMessage =
       err instanceof Error ? err.message : 'Internal server error'
+    logger.error(`CheckoutSession retrieve failed: ${errorMessage}`)
     res.status(500).json({ statusCode: 500, message: errorMessage })
   }
 }

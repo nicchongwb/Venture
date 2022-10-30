@@ -35,6 +35,7 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error'
       // On error, log and return the error message.
       if (err! instanceof Error) console.log(err)
+      logger.error(`Webhook error: ${errorMessage}`)
       console.log(`❌ Error message: ${errorMessage}`)
       res.status(400).send(`Webhook Error: ${errorMessage}`)
       return
@@ -105,6 +106,7 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     // Return a response to acknowledge receipt of the event.
     res.json({ received: true })
   } else {
+    logger.notice('Non POST Request made to Stripe Webhook API')
     res.setHeader('Allow', 'POST')
     res.status(405).end('Method Not Allowed')
   }
