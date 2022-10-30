@@ -28,6 +28,7 @@ export type ProjectProps = {
 
 const ProjectCard: React.FC<{ project: ProjectProps }> = ({ project }) => {
   const projectOwner = project.user ? project.user.name : "No owner";
+  const sanitizeHtml = require("sanitize-html");
   return (
 
         <Card sx={{ maxWidth: 345 }}>
@@ -40,10 +41,10 @@ const ProjectCard: React.FC<{ project: ProjectProps }> = ({ project }) => {
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                {project.title}
+                {sanitizeHtml(project.title)}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {project.description}
+                {sanitizeHtml(project.description)}
               </Typography>
             </CardContent>
           </CardActionArea>

@@ -7,8 +7,9 @@
     "build": "next build",
     "start": "next start",
     "tsc:check": "tsc --noEmit",
-    "test:e2e": "cypress run --headed --config-file \"./cypress/config/cypress-base.json\"",
-    "cypress:test": "next lint"
+    "test:e2e": "cypress run --config-file \"./cypress/config/cypress-base.json\"",
+    "lint": "next lint",
+    "e2e:test": "start-server-and-test start http://localhost:3000 test:e2e"
   },
   "dependencies": {
     "@emotion/react": "^11.10.4",
@@ -32,6 +33,7 @@
     "bcrypt": "^5.0.1",
     "bootstrap": "^5.2.0",
     "edge-csrf": "^0.2.1",
+    "express-validator": "^6.14.2",
     "firebase": "^9.11.0",
     "formik": "^2.2.9",
     "iron-session": "^6.2.1",

@@ -42,6 +42,7 @@ async function deleteProject(id: string  ) {
 
 
 const ProjectTable: React.FC<Props> = ({ projects }) => {
+  const sanitizeHtml = require("sanitize-html");
   
    return (
         <div className="container max-w-7xl mx-auto mt-8">
@@ -84,12 +85,12 @@ const ProjectTable: React.FC<Props> = ({ projects }) => {
                   {projects.map((project : ProjectProps) => (
                     <tr key={project.id}>
                       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                        <div className="text-sm leading-5 text-gray-900">{project.title}
+                        <div className="text-sm leading-5 text-gray-900">{sanitizeHtml(project.title)}
                         </div>
                       </td>
         
                       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                        <p>{project.description}.</p>
+                        <p>{sanitizeHtml(project.description)}.</p>
                       </td>
 
                       <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">

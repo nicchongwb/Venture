@@ -7,8 +7,11 @@ import util from "util";
 import nodemailer from "nodemailer";
 import argon2 from "argon2";
 import logger from "../../../Logger";
+import { registerSchema } from "../../../schemas/registerSchema";
+import { validate } from "../../../middleware/registerValidate";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+// export default async (req: NextApiRequest, res: NextApiResponse) => {
   async function generateQR() {
     const buffer = await util.promisify(crypto.randomBytes)(14);
     const mfaSecret = base32Encode(buffer, "RFC4648", { padding: false });
@@ -23,6 +26,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   // send email to given email
   let error;
   const accountData = JSON.parse(req.body);
+  // const accountData = req.body;
   accountData.mfaSecret = await generateQR();
   const issuer = "Let's Venture";
   const algorithm = "SHA1";
@@ -79,3 +83,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.json(error);
   }
 }; 
+
+export default validate(registerSchema, handler);

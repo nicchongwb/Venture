@@ -2,8 +2,12 @@ import { prisma } from '../../lib/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 import logger from "../../Logger";
+import { validate } from '../../middleware/createValidate';
+import { createSchema } from '../../schemas/createSchema';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+
+// export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const{title,description, highlights,
         busi_model, image, closingDate,createdAt, updatedAt, email} = req.body
         console.log("req" + req.body)
@@ -30,3 +34,4 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 }
 
+export default validate(createSchema, handler);

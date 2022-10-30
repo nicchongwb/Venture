@@ -7,6 +7,7 @@ pipeline {
     SEMGREP_APP_TOKEN = credentials('SEMGREP_APP_TOKEN')
     SEMGREP_PR_ID = "${env.CHANGE_ID}"
     CHROME_BIN = '/bin/google-chrome'
+    DATABASE_URL = credentials('22d228cf-a4af-4e9b-be9b-909a6e347141')
     //  SEMGREP_TIMEOUT = "300"
   }
   stages {
@@ -39,6 +40,7 @@ pipeline {
         sh 'semgrep ci'
       }
 
+
       post {
         cleanup {
           cleanWs() // Clean up any failed builds
@@ -47,13 +49,19 @@ pipeline {
     }
 
     stage('Cypress E2E testing') {
-      // agent {
-      //   docker {
-      //     image 'cypress/base:16'
-      //   }
-      // }
+      agent {
+        docker {
+          image 'cypress/base:16'
+        }
+      }
       steps {
-        sh 'cd venture-app; npm run cypress:test'
+        sh 'cd venture-app; npm ci; npm run build; npm run e2e:test'
+      }
+    }
+
+    stage('Linting check') {
+      steps {
+        sh 'cd venture-app; npm run lint'
       }
     }
   }
