@@ -11,19 +11,19 @@ const nextConfig = {
   images: {
     domains: ['firebasestorage.googleapis.com'],
   },
-  async headers() {
-    return [
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'Content-Security-Policy',
-            value: ContentSecurityPolicy.replace(/\s{2,}/g, ' ').trim(),
-          },
-        ],
-      },
-    ]
-  },
+  // async headers() {
+  //   return [
+  //     {
+  //       source: '/:path*',
+  //       headers: [
+  //         {
+  //           key: 'Content-Security-Policy',
+  //           value: ContentSecurityPolicy.replace(/\s{2,}/g, ' ').trim(),
+  //         },
+  //       ],
+  //     },
+  //   ]
+  // },
 
 }
 module.exports = nextConfig

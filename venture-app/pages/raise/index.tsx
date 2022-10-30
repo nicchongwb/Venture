@@ -31,7 +31,6 @@ interface FormValues {
   email: any;
 }
 
-
 async function create(data: FormValues) {
   try {
     console.log("reaching create" + data);
@@ -147,7 +146,7 @@ const InnerForm = (props: any & FormikProps<FormValues>) => {
               id="file"
               name="file"
               type="file"
-              accept="image/*"
+              accept="image/jpeg, image/jpg, image/png"
               onChange={(event) => {
                 setFieldValue("file", event.target.files![0]);
               }}
@@ -265,10 +264,6 @@ const MyForm = withFormik<MyFormProps, FormValues>({
               values.updatedAt = now.toString();
               // do submitting things when file is successfully uploaded
               console.log("print values" + values);
-              values.title = sanitizeHtml(values.title);
-              values.description = sanitizeHtml(values.description);
-              values.highlights = sanitizeHtml(values.highlights);
-              values.busi_model = sanitizeHtml(values.busi_model);
               console.log("business" + values);
               try {
                 create(values);
@@ -289,10 +284,6 @@ const MyForm = withFormik<MyFormProps, FormValues>({
       values.updatedAt = now.toString();
       // do submitting things
       console.log("print values" + values);
-      values.title = sanitizeHtml(values.title);
-      values.description = sanitizeHtml(values.description);
-      values.highlights = sanitizeHtml(values.highlights);
-      values.busi_model = sanitizeHtml(values.busi_model);
       console.log("business" + values);
       try {
         create(values);

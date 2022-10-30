@@ -54,12 +54,10 @@ interface FormValues {
   email: any;
 }
 
-
-
 async function edit(data: FormValues) {
   try {
     console.log("reaching create" + data);
-    fetch(`/api/update`, {
+    fetch('/api/update', {
       body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",
@@ -277,7 +275,6 @@ const MyForm = withFormik<MyFormProps, FormValues>({
 
   handleSubmit: (values) => {
     console.log("HERE!");
-    const sanitizeHtml = require("sanitize-html");
 
     // If file is uploaded handle submit
     if (values.file != null) {
@@ -295,10 +292,6 @@ const MyForm = withFormik<MyFormProps, FormValues>({
               values.updatedAt = now.toString();
               // do submitting things when file is successfully uploaded
               console.log("print values" + values);
-              values.title = sanitizeHtml(values.title);
-              values.description = sanitizeHtml(values.description);
-              values.highlights = sanitizeHtml(values.highlights);
-              values.busi_model = sanitizeHtml(values.busi_model);
               console.log("business" + values);
               try {
                 edit(values);
@@ -309,7 +302,7 @@ const MyForm = withFormik<MyFormProps, FormValues>({
           });
         });
       } catch (error) {
-        console.log("FIle Uploading ERROR:" + error);
+        console.log("File Uploading ERROR:" + error);
       }
     } else {
       // submit even when file is not uploaded
@@ -318,10 +311,6 @@ const MyForm = withFormik<MyFormProps, FormValues>({
       values.updatedAt = now.toString();
       // do submitting things
       console.log("print values" + values);
-      values.title = sanitizeHtml(values.title);
-      values.description = sanitizeHtml(values.description);
-      values.highlights = sanitizeHtml(values.highlights);
-      values.busi_model = sanitizeHtml(values.busi_model);
       console.log("business" + values);
       try {
         edit(values);
