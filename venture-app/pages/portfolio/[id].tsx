@@ -54,9 +54,7 @@ interface FormValues {
   email: any;
 }
 
-interface OtherProps {
-  Project: ProjectProps;
-}
+
 
 async function edit(data: FormValues) {
   try {
@@ -83,7 +81,7 @@ async function edit(data: FormValues) {
 }
 
 // Aside: You may see InjectedFormikProps<OtherProps, FormValues> instead of what comes below in older code.. InjectedFormikProps was artifact of when Formik only exported a HoC. It is also less flexible as it MUST wrap all props (it passes them through).
-const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
+const InnerForm = (props: any & FormikProps<FormValues>) => {
   const { touched, errors, isSubmitting, setFieldValue, values } = props;
   const errorsString: string | undefined = errors.closingDate;
   
