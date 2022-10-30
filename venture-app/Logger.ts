@@ -27,7 +27,7 @@ const levels = {
       },
     },
   
-    pino.multistream(streams, {
+    pino.multistream(streams as any, {
       levels,
       dedupe: true,
     })
