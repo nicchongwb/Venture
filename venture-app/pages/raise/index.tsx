@@ -31,14 +31,10 @@ interface FormValues {
   email: any;
 }
 
-interface OtherProps {
-  message: string;
-}
-
 async function create(data: FormValues) {
   try {
     console.log("reaching create" + data);
-    fetch('/api/create', {
+    fetch(`/api/create`, {
       body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",
@@ -55,7 +51,7 @@ async function create(data: FormValues) {
 }
 
 // Aside: You may see InjectedFormikProps<OtherProps, FormValues> instead of what comes below in older code.. InjectedFormikProps was artifact of when Formik only exported a HoC. It is also less flexible as it MUST wrap all props (it passes them through).
-const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
+const InnerForm = (props: any & FormikProps<FormValues>) => {
   const { touched, errors, isSubmitting, message, setFieldValue, values } =
     props;
   const { user, mutateUser } = useUser();
@@ -150,7 +146,7 @@ const InnerForm = (props: OtherProps & FormikProps<FormValues>) => {
               id="file"
               name="file"
               type="file"
-              accept="image/*"
+              accept="image/jpeg, image/jpg, image/png"
               onChange={(event) => {
                 setFieldValue("file", event.target.files![0]);
               }}
@@ -268,10 +264,6 @@ const MyForm = withFormik<MyFormProps, FormValues>({
               values.updatedAt = now.toString();
               // do submitting things when file is successfully uploaded
               console.log("print values" + values);
-              values.title = sanitizeHtml(values.title);
-              values.description = sanitizeHtml(values.description);
-              values.highlights = sanitizeHtml(values.highlights);
-              values.busi_model = sanitizeHtml(values.busi_model);
               console.log("business" + values);
               try {
                 create(values);
@@ -292,10 +284,6 @@ const MyForm = withFormik<MyFormProps, FormValues>({
       values.updatedAt = now.toString();
       // do submitting things
       console.log("print values" + values);
-      values.title = sanitizeHtml(values.title);
-      values.description = sanitizeHtml(values.description);
-      values.highlights = sanitizeHtml(values.highlights);
-      values.busi_model = sanitizeHtml(values.busi_model);
       console.log("business" + values);
       try {
         create(values);
