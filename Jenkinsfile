@@ -16,6 +16,11 @@ pipeline {
         checkout scm
       }
     }
+        // stage('Linting check') {
+    //   steps {
+    //     sh 'cd venture-app; npm run lint'
+    //   }
+    // }
     // stage('OWASP DependencyCheck') {
 		// 	steps {
 		// 		dependencyCheck additionalArguments: '--format HTML --format XML --disableYarnAudit', odcInstallation: 'OWASP-DC'
@@ -54,14 +59,10 @@ pipeline {
         }
       }
       steps {
-        sh 'cd venture-app; npm i; npm run build; npm run e2e:test'
+        sh 'cd venture-app; npm i; npm run build; npm run e2e:tests'
       }
     }
 
-    // stage('Linting check') {
-    //   steps {
-    //     sh 'cd venture-app; npm run lint'
-    //   }
-    // }
+
   }
 }
