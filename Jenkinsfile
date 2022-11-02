@@ -29,7 +29,7 @@ pipeline {
 		}
     stage('Linting check') {
       steps {
-        sh 'cd venture-app; npm run lint cd ..'
+        sh 'cd venture-app; npm run lint'
       }
     }
     stage('Semgrep-Scan') {
