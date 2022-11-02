@@ -40,14 +40,12 @@ async function login(
     }
   }
 }
-//export default ()
+
 const FormPage: React.FunctionComponent<Props> = ({ csrfToken }) => {
-  // redirect if already logged in
   const { mutateUser } = useUser({
     redirectTo: "/",
     redirectIfFound: true,
   });
-
   const [errorMsg, setErrorMsg] = useState("");
   const router = useRouter();
   return (
@@ -107,7 +105,6 @@ const FormPage: React.FunctionComponent<Props> = ({ csrfToken }) => {
               <Field
                 name="csrf_token"
                 type="hidden"
-                // value={csrfToken}
               />
             </label>
             <div className="flex justify-center">

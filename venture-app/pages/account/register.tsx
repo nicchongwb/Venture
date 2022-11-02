@@ -26,10 +26,12 @@ const RegisterSchema = Yup.object().shape({
   password: Yup.string()
     .min(8, "Minimum eight characters!")
     .max(25, "Too complex!")
-    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\!\@\#\%\^\&\*])[a-zA-Z\d\w\!\@\#\%\^\&\*]+$/, "At least one uppercase, lowercase, number, and special character only from !@#%^&*")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\!\@\#\%\^\&\*])[a-zA-Z\d\w\!\@\#\%\^\&\*]+$/,
+      "At least one uppercase, lowercase, number, and special character only from !@#%^&*"
+    )
     .required("Required")
     .test("validate-passwd", "", (data, { createError }: any) => {
-      // you can get it here
       if (!data) return false;
 
       const options = {
@@ -62,9 +64,6 @@ const RegisterSchema = Yup.object().shape({
     }),
 });
 
-// do field level validation for field password
-// https://formik.org/docs/guides/validation
-
 export type AccountProps = {
   firstName: string;
   lastName: string;
@@ -91,8 +90,6 @@ const RegisterPage = () => {
   let emailExists = false;
   return (
     <Formik
-      //call your auth/register route while passing data in onsubmit
-      // has to be async anonym func and need to await
       initialValues={{
         firstName: "",
         lastName: "",
