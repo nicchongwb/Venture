@@ -47,7 +47,6 @@ const FormPage: React.FunctionComponent<Props> = ({ csrfToken }) => {
     redirectTo: "/",
     redirectIfFound: true,
   });
-
   const [errorMsg, setErrorMsg] = useState("");
   const router = useRouter();
   return (
