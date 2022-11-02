@@ -16,36 +16,36 @@ pipeline {
         checkout scm
       }
     }
-    stage('OWASP DependencyCheck') {
-			steps {
-				dependencyCheck additionalArguments: '--format HTML --format XML --disableYarnAudit', odcInstallation: 'OWASP-DC'
-			}
-      post {
-		    success {
-			    dependencyCheckPublisher pattern: 'dependency-check-report.xml'
-		    }
-	    }
-		}
-    stage('Semgrep-Scan') {
-      agent {
-        docker { 
-          image 'python:3' 
-          args '--user 0:0' // use container as root
-          args '-v $HOME/.m2:/root/.m2' // For caching
-        }
-      }
-      steps {
-        sh 'pip3 install semgrep'
-        sh 'semgrep ci'
-      }
+    // stage('OWASP DependencyCheck') {
+		// 	steps {
+		// 		dependencyCheck additionalArguments: '--format HTML --format XML --disableYarnAudit', odcInstallation: 'OWASP-DC'
+		// 	}
+    //   post {
+		//     success {
+		// 	    dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+		//     }
+	  //   }
+		// }
+    // stage('Semgrep-Scan') {
+    //   agent {
+    //     docker { 
+    //       image 'python:3' 
+    //       args '--user 0:0' // use container as root
+    //       args '-v $HOME/.m2:/root/.m2' // For caching
+    //     }
+    //   }
+    //   steps {
+    //     sh 'pip3 install semgrep'
+    //     sh 'semgrep ci'
+    //   }
 
 
-      post {
-        cleanup {
-          cleanWs() // Clean up any failed builds
-        }
-      }
-    }
+    //   post {
+    //     cleanup {
+    //       cleanWs() // Clean up any failed builds
+    //     }
+    //   }
+    // }
 
     stage('Cypress E2E testing') {
       agent {
@@ -58,10 +58,10 @@ pipeline {
       }
     }
 
-    stage('Linting check') {
-      steps {
-        sh 'cd venture-app; npm run lint'
-      }
-    }
+    // stage('Linting check') {
+    //   steps {
+    //     sh 'cd venture-app; npm run lint'
+    //   }
+    // }
   }
 }
