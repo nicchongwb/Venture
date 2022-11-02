@@ -1,4 +1,4 @@
 export const CURRENCY = 'sgd'
-export const MIN_AMOUNT = 1000.0
-export const MAX_AMOUNT = 999998.0
-export const AMOUNT_STEP = 5.0
+export const MIN_AMOUNT = 50.0
+export const MAX_AMOUNT = 2000.0
+export const AMOUNT_STEP = 1.0
