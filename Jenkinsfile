@@ -16,11 +16,7 @@ pipeline {
         checkout scm
       }
     }
-    stage('Linting check') {
-      steps {
-        sh 'cd venture-app; npm run lint'
-      }
-    }
+
     stage('OWASP DependencyCheck') {
 			steps {
 				dependencyCheck additionalArguments: '--format HTML --format XML --disableYarnAudit', odcInstallation: 'OWASP-DC'
@@ -31,6 +27,11 @@ pipeline {
 		    }
 	    }
 		}
+    stage('Linting check') {
+      steps {
+        sh 'cd venture-app; npm run lint cd ..'
+      }
+    }
     stage('Semgrep-Scan') {
       agent {
         docker { 
