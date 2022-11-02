@@ -9,8 +9,7 @@
     "tsc:check": "tsc --noEmit",
     "test:e2e": "cypress run --config-file \"./cypress/config/cypress-base.json\"",
     "lint": "next lint",
-    "e2e:install": "cypress install",
-    "e2e:test": " e2e:install start-server-and-test start http://localhost:3000 test:e2e"
+    "e2e:test": "start-server-and-test start http://localhost:3000 cypress install test:e2e"
   },
   "dependencies": {
     "@emotion/react": "^11.10.4",
