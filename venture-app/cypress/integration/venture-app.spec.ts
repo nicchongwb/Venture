@@ -1,6 +1,6 @@
 describe("test home screen of main application", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:3000");
+    cy.visit("https://letsventure.ml");
   });
 
   it("should display the main page of the applciation", () => {
