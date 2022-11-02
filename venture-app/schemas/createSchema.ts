@@ -1,8 +1,9 @@
-import { date, object, ref, string, TypeOf } from 'yup';
+import { date, mixed, object, ref, string, TypeOf } from 'yup';
 import  { zxcvbn, zxcvbnOptions } from '@zxcvbn-ts/core'
 import zxcvbnCommonPackage from '@zxcvbn-ts/language-common'
 import zxcvbnEnPackage from '@zxcvbn-ts/language-en'
 import sanitizeHtml from 'sanitize-html';
+import { any } from 'cypress/types/bluebird';
 
 export const createSchema = object({
     title: string().min(3).max(100).required().transform(
@@ -24,7 +25,8 @@ export const createSchema = object({
     updatedAt: string().required().matches(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*\s)?[a-zA-Z\d\s\w\:\+\(\)]+$/),
     createdAt: string().required().matches(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*\s)?[a-zA-Z\d\s\w\:\+\(\)]+$/),
     closingDateFill: date(),
-    email: string().email()
+    email: string().email(),
+    file: mixed()
 })
 
 export type Create = TypeOf<typeof createSchema>;

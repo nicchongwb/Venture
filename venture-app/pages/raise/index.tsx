@@ -9,12 +9,10 @@ import {
 } from "formik";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
-import { storage } from "../../lib/firebase/firebase";
-import { getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
-import { v4 } from "uuid";
 import "react-datepicker/dist/react-datepicker.css";
 import useUser from "../../lib/useUser";
 import router from "next/router";
+import { resolve } from "path";
 
 // Shape of form values
 interface FormValues {
@@ -23,6 +21,7 @@ interface FormValues {
   highlights: string;
   busi_model: string;
   file: any;
+  fileName: any;
   image: string;
   createdAt: string;
   updatedAt: string;
@@ -33,7 +32,6 @@ interface FormValues {
 
 async function create(data: FormValues) {
   try {
-    console.log("reaching create" + data);
     fetch(`/api/create`, {
       body: JSON.stringify(data),
       headers: {
@@ -147,8 +145,15 @@ const InnerForm = (props: any & FormikProps<FormValues>) => {
               name="file"
               type="file"
               accept="image/jpeg, image/jpg, image/png"
-              onChange={(event) => {
-                setFieldValue("file", event.target.files![0]);
+              onChange={async (event) => {
+                const reader = new FileReader();
+                console.log(typeof(event.target.files![0]))
+                console.log(event.target.files![0])
+                reader.readAsDataURL(event.target.files![0])
+                reader.onload = () => resolve(reader.result as string)
+                reader.onloadend = () => {setFieldValue("file", reader.result);
+                setFieldValue("fileName", event.target.files![0].name);
+              }
               }}
             />
           </label>
@@ -202,7 +207,8 @@ const MyForm = withFormik<MyFormProps, FormValues>({
       highlights: "",
       busi_model: "",
       image: "",
-      file: null,
+      file: "",
+      fileName: "",
       closingDate: "",
       updatedAt: "",
       createdAt: "",
@@ -244,53 +250,56 @@ const MyForm = withFormik<MyFormProps, FormValues>({
   },
 
   handleSubmit: (values) => {
-    console.log("HERE!");
-    const sanitizeHtml = require("sanitize-html");
 
-    // If file is uploaded handle submit
-    if (values.file != null) {
-      // FIle UPload to firebase
-      const imageRef = ref(storage, `images/${values.file.name + v4()}`);
-      console.log("filename: " + values.file.name);
-      try {
-        uploadBytes(imageRef, values.file).then(() => {
-          console.log("Image uploaded");
-          listAll(imageRef).then(() => {
-            getDownloadURL(imageRef).then((url) => {
-              values.image = url;
-              const now = new Date();
-              values.closingDate = values.closingDateFill.toString();
-              values.createdAt = now.toString();
-              values.updatedAt = now.toString();
-              // do submitting things when file is successfully uploaded
-              console.log("print values" + values);
-              console.log("business" + values);
-              try {
-                create(values);
-              } catch (error) {
-                console.log(error);
-              }
-            });
-          });
-        });
-      } catch (error) {
-        console.log("FIle Uploading ERROR:" + error);
-      }
-    } else {
-      // submit even when file is not uploaded
+    const sanitizeHtml = require("sanitize-html");
+    try {
       const now = new Date();
       values.closingDate = values.closingDateFill.toString();
       values.createdAt = now.toString();
       values.updatedAt = now.toString();
-      // do submitting things
-      console.log("print values" + values);
-      console.log("business" + values);
-      try {
-        create(values);
-      } catch (error) {
-        console.log(error);
-      }
+      create(values);
+    } catch (error) {
+      console.log(error);
     }
+    // // If file is uploaded handle submit
+    // if (values.file != null) {
+    //   // FIle UPload to firebase
+    //   const imageRef = ref(storage, `images/${values.file.name + v4()}`);
+    //   console.log("filename: " + values.file.name);
+    //   try {
+    //     uploadBytes(imageRef, values.file).then(() => {
+    //       listAll(imageRef).then(() => {
+    //         getDownloadURL(imageRef).then((url) => {
+    //           values.image = url;
+    //           const now = new Date();
+    //           values.closingDate = values.closingDateFill.toString();
+    //           values.createdAt = now.toString();
+    //           values.updatedAt = now.toString();
+    //           // do submitting things when file is successfully uploaded
+    //           try {
+    //             create(values);
+    //           } catch (error) {
+    //             console.log(error);
+    //           }
+    //         });
+    //       });
+    //     });
+    //   } catch (error) {
+    //     console.log("FIle Uploading ERROR:" + error);
+    //   }
+    // } else {
+    //   // submit even when file is not uploaded
+    //   const now = new Date();
+    //   values.closingDate = values.closingDateFill.toString();
+    //   values.createdAt = now.toString();
+    //   values.updatedAt = now.toString();
+    //   // do submitting things
+    //   try {
+    //     create(values);
+    //   } catch (error) {
+    //     ;
+    //   }
+    // }
   },
 })(InnerForm);
 
