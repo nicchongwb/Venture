@@ -8,16 +8,16 @@ import { any } from 'cypress/types/bluebird';
 export const updateSchema = object({
     id: number().integer().min(1),
     title: string().min(3).max(100).required().transform(
-        (title) => title.replace(/\&/gm, ' and ').replace(/[\<\>]/gm, ' ').replace(/[^\S\r\n]+/gm, ' ')
+        (title) => title.replace(/\&/gm, ' and ').replace(/[\<\>]/gm, ' ').replace(/[\n+|\r+]/gm, '').replace(/\s+/gm, ' ')
     ),
     description: string().min(3).max(2000).required().transform(
-        (title) => title.replace(/\&/gm, ' and ').replace(/[\<\>]/gm, ' ').replace(/[^\S\r\n]+/gm, ' ')
+        (title) => title.replace(/\&/gm, ' and ').replace(/[\<\>]/gm, ' ').replace(/[\n+|\r+]/gm, '').replace(/\s+/gm, ' ')
     ),
     highlights: string().min(3).max(2000).required().transform(
-        (title) => title.replace(/\&/gm, ' and ').replace(/[\<\>]/gm, ' ').replace(/[^\S\r\n]+/gm, ' ')
+        (title) => title.replace(/\&/gm, ' and ').replace(/[\<\>]/gm, ' ').replace(/[\n+|\r+]/gm, '').replace(/\s+/gm, ' ')
     ),
     busi_model: string().min(3).max(2000).required().transform(
-        (title) => title.replace(/\&/gm, ' and ').replace(/[\<\>]/gm, ' ').replace(/[^\S\r\n]+/gm, ' ')
+        (title) => title.replace(/\&/gm, ' and ').replace(/[\<\>]/gm, ' ').replace(/[\n+|\r+]/gm, '').replace(/\s+/gm, ' ')
     ),
     image: string().transform(
       (image) => image.replace(/[\<\>]/gm, '')
